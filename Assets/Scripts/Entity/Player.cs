@@ -6,10 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Inventory))]
 public class Player : Entity
 {
+	[SerializeField] AudioClip dropClip;
 	protected override IEnumerator Move(Vector2 pos)
 	{
 		yield return base.Move(pos);
-		var hit = Physics2D.Raycast(transform.position, Vector2.zero, 10f, LayerMask.GetMask("Collectable"));
+		var hit = Physics2D.Raycast((Vector2)transform.position + GameSettings.rayCastOffset, Vector2.zero, 10f, LayerMask.GetMask("Collectable"));
 		if (hit.collider)
 			hit.collider.GetComponent<Interactable>()?.Action(this);
 	}
@@ -20,13 +21,15 @@ public class Player : Entity
 		if (c == null)
 			return;
 
-		var b = Instantiate(c.prefab, transform.position, Quaternion.identity);
+
+		
+		Instantiate(c.prefab, transform.position, Quaternion.identity);
 		inventory.RemoveCollectable(c);
 	}
 	bool CanMove(Vector2 pos, Vector2 direction)
 	{
 		LayerMask exclude = ~LayerMask.GetMask("Collectable");
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, exclude);
+		var hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 10f, exclude);
 		if (hit.collider)
 		{
 			if (hit.collider.TryGetComponent<Goal>(out Goal g))
@@ -47,7 +50,7 @@ public class Player : Entity
 			}
 			else if (hit.collider.TryGetComponent<Moveable>(out Moveable m))
 				return m.CanMove(direction);
-			
+
 			return false;
 		}
 		return true;

@@ -11,7 +11,7 @@ public class Moveable : MonoBehaviour
 		Vector2 targetPos = (Vector2)transform.position + direction;
 
 		// Ignore self and check target
-		RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 1f);
+		RaycastHit2D hit = Physics2D.Raycast(targetPos + GameSettings.rayCastOffset, Vector2.zero, 1f);
 
 		if (!hit)
 		{

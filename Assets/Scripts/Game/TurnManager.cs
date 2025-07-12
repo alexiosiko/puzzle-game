@@ -14,10 +14,7 @@ public class TurnManager : MonoBehaviour
     public static event Action OnPlayerPhase;
     public static event Action OnBombPhase;
     public static event Action OnEnemyPhase;
-    void Start()
-    {
-		StartCoroutine(GameLoop());
-    }
+    void Start() => StartCoroutine(GameLoop());
 
     IEnumerator GameLoop()
     {
@@ -45,10 +42,7 @@ public class TurnManager : MonoBehaviour
 		OnEnemyPhase?.Invoke();
 		Enemy.reservedPositions.Clear();
 		yield return ProcessPhase(enemyCoroutines);
-		
-		
     }
-
     IEnumerator ProcessPhase(List<IEnumerator> coroutines)
     {
         int runningCoroutines = coroutines.Count;

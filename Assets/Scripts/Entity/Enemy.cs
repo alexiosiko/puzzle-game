@@ -37,7 +37,8 @@ public class Enemy : Entity
 	}
 	protected override IEnumerator Move(Vector2 pos)
 	{
-		yield return base.Move(pos);
+		StartCoroutine(base.Move(pos));
+		yield return new WaitForSeconds(GameSettings.tweenDuration / 2f);
 		if (CanKillPlayer())
 			yield return KillPlayer();
 	}
@@ -74,31 +75,31 @@ public class Enemy : Entity
 		}
 		return false;
 	}
-	// void MoveRandom()
-	// {
-	// 	Vector2[] directions = Utils.GetRandomDirections();
+	void MoveRandom()
+	{
+		Vector2[] directions = Utils.GetRandomDirections();
 
-	// 	Vector2 direction = Vector2.zero;
-	// 	for (int i = 0; i < directions.Length; i++)
-	// 	{
-	// 		if (CanMove(directions[i]))
-	// 		{
-	// 			direction = directions[i];
-	// 			break;
-	// 		}
-	// 	}
+		Vector2 direction = Vector2.zero;
+		for (int i = 0; i < directions.Length; i++)
+		{
+			if (CanMove(directions[i]))
+			{
+				direction = directions[i];
+				break;
+			}
+		}
 
-	// 	if (direction != Vector2.zero)
-	// 		TurnManager.AddEnemy(Move(direction + (Vector2)transform.position));
-	// }
-	// bool CanMove(Vector2 direction)
-	// {
-	// 	Vector2 pos = (Vector2)transform.position + direction;
-	// 	var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, GameSettings.notWalkableLayers);
-	// 	if (hit.collider)
-	// 		return false;
-	// 	return true;
-	// }
+		if (direction != Vector2.zero)
+			TurnManager.AddEnemy(Move(direction + (Vector2)transform.position));
+	}
+	bool CanMove(Vector2 direction)
+	{
+		Vector2 pos = (Vector2)transform.position + direction;
+		var hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 10f, GameSettings.notWalkableLayers);
+		if (hit.collider)
+			return false;
+		return true;
+	}
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F))

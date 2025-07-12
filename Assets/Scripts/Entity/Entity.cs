@@ -11,7 +11,7 @@ public abstract class Entity : SoundPlayer
 	{
 		Play(footstepClips);
 		FaceEntity(pos);
-		yield return transform.DOMove(pos, GameSettings.tweenDuration / 1.5f).WaitForCompletion();
+		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
 	}
 	void FaceEntity(Vector2 pos)
 	{

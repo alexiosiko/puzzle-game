@@ -58,7 +58,7 @@ public class AStarPathfinder
 
 	static bool IsWalkable(Vector2Int pos)
 	{
-		RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0.1f, GameSettings.notWalkableLayers);
+		RaycastHit2D hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 0.1f, GameSettings.notWalkableLayers);
 		if (hit.collider)
 		{
 			// If hit entity, but it's a player, treat as walkable

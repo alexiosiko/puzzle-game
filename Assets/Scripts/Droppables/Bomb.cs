@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-public class Bomb : MonoBehaviour
+public class Bomb : Droppable
 {
 	[SerializeField] GameObject explosionGameObject;
 	[SerializeField] Sprite[] sprites = new Sprite[2];
@@ -44,7 +44,11 @@ public class Bomb : MonoBehaviour
 			SpawnExplosion(pos);
 		}
 	}
-	void Awake() => renderer = GetComponent<SpriteRenderer>();
+	protected override void Awake()
+	{
+		base.Awake();
+		renderer = GetComponent<SpriteRenderer>();
+	}
 	new protected SpriteRenderer renderer;
 	void SpawnExplosion(Vector2 pos) => Instantiate(explosionGameObject, pos, Quaternion.identity);
 }
