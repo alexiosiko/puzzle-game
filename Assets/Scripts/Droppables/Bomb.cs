@@ -1,0 +1,50 @@
+using System.Collections;
+using UnityEngine;
+public class Bomb : MonoBehaviour
+{
+	[SerializeField] GameObject explosionGameObject;
+	[SerializeField] Sprite[] sprites = new Sprite[2];
+	int currentStep = 0;
+	public void OnEnable() => TurnManager.OnBombPhase += HandleOnBombPhase;
+	void OnDisable() => TurnManager.OnBombPhase -= HandleOnBombPhase;
+	void HandleOnBombPhase()
+	{
+		if (currentStep == 2)
+		{
+			TurnManager.AddBomb(ExplodeRoutine());
+			return;
+		}
+		renderer.sprite = sprites[currentStep];
+		currentStep++;
+
+	}
+	IEnumerator ExplodeRoutine()
+	{
+		// spawn explosions
+		ExplodeInDirection(Vector2.left);
+		ExplodeInDirection(Vector2.up);
+		ExplodeInDirection(Vector2.right);
+		ExplodeInDirection(Vector2.down);
+		SpawnExplosion((Vector2)transform.position);
+
+		Destroy(gameObject);
+
+		yield break;
+
+	}
+
+	void ExplodeInDirection(Vector2 direction)
+	{
+		for (int i = 1; i < 3; i++)
+		{
+			Vector2 pos = (Vector2)transform.position + direction * i;
+			var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, LayerMask.GetMask("Wall", "Moveable"));
+			if (hit.collider)
+				return;
+			SpawnExplosion(pos);
+		}
+	}
+	void Awake() => renderer = GetComponent<SpriteRenderer>();
+	new protected SpriteRenderer renderer;
+	void SpawnExplosion(Vector2 pos) => Instantiate(explosionGameObject, pos, Quaternion.identity);
+}
