@@ -1,5 +1,18 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
+public class CollectableData
+{
+	public CollectableData(string id, SpriteRenderer renderer, GameObject prefab = null)
+	{
+		this.id = id;
+		this.renderer = renderer;
+		this.prefab = prefab;
+	}
+	public string id;
+	public SpriteRenderer renderer;
+	public GameObject prefab;
+}
 public class Inventory : MonoBehaviour
 {
 	[SerializeField] GameObject inventoryParent;
@@ -29,7 +42,7 @@ public class Inventory : MonoBehaviour
 	public CollectableData GetAndRemoveCollectableData(string id)
 	{
 		var data = GetCollectableData(id);
-		if (data)
+		if (data != null)
 			RemoveCollectable(data);
 		return data;
 	}

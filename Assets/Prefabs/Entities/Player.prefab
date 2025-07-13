@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0abe61763bae2fdaab1aa8cdcb3a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathClip: {fileID: 8300000, guid: 0d62c116d20cb5a49b63fa05f656a341, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: d7c2400906fc1c74b94192550ce64435, type: 3}
   - {fileID: 8300000, guid: 02bb7218c46aae7479282b4012438b03, type: 3}
@@ -296,7 +297,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6448027753434125518}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 

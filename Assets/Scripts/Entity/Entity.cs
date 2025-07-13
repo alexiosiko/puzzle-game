@@ -6,16 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class Entity : SoundPlayer
 {
+	[SerializeField] protected AudioClip deathClip;
 	[SerializeField] AudioClip[] footstepClips;
 	protected virtual IEnumerator Move(Vector2 pos)
 	{
-		Play(footstepClips);
+		PlayAudio(footstepClips);
 		FaceEntity(pos);
 		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
 	}
-	void FaceEntity(Vector2 pos)
+	protected void FaceEntity(Vector2 target)
 	{
-		float x = pos.x - transform.position.x;
+		float x = target.x - transform.position.x;
 		if (x < 0)
 			transform.localScale = new(-1, 1, 1);
 		else if (x > 0)

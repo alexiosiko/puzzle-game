@@ -8,7 +8,8 @@ public class ItemUI : MonoBehaviour
 	public void Init(CollectableData data)
 	{
 		this.data = data;
-		image.sprite = data.sprite;
+		image.sprite = data.renderer.sprite;
+		image.color = data.renderer.color;
 	}
 
 }

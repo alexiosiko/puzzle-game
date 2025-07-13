@@ -1,10 +1,8 @@
-using System.Diagnostics;
 using DG.Tweening;
 using UnityEngine;
-
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-public class Moveable : MonoBehaviour
+public class Moveable : Interactable
 {
 	public bool CanMove(Vector2 direction)
 	{
@@ -20,7 +18,7 @@ public class Moveable : MonoBehaviour
 		}
 
 		// If another moveable, check recursively
-		if (hit.collider.TryGetComponent<Moveable>(out Moveable m))
+		if (hit.collider.TryGetComponent(out Moveable m))
 		{
 			bool canMoveOtherMoveable = m.CanMove(direction);
 			if (canMoveOtherMoveable)
@@ -37,9 +35,7 @@ public class Moveable : MonoBehaviour
 		source.Play();
 		transform.DOMove((Vector2)transform.position + direction, GameSettings.tweenDuration);
 	}
-	AudioSource source;
-	void Awake()
+	public override void Action(Player player)
 	{
-		source = GetComponent<AudioSource>();
 	}
 }

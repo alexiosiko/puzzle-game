@@ -39,26 +39,29 @@ public class Enemy : Entity
 	{
 		StartCoroutine(base.Move(pos));
 		yield return new WaitForSeconds(GameSettings.tweenDuration / 2f);
-		if (CanKillPlayer())
-			yield return KillPlayer();
+		TryCanKillPlayer();
+			
 	}
-	bool CanKillPlayer()
+	void TryCanKillPlayer()
 	{
 		foreach (var d in Utils.directions)
 		{
 			Vector2 pos = (Vector2)transform.position + d;
 			var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, LayerMask.GetMask("Entity"));
 			if (hit.collider && hit.collider.TryGetComponent(out Player p))
-				return true;
+			{
+				TurnManager.AddAttack(Attack(pos, p));
+				return;
+			}
 		}
-		return false;
 	}
-	IEnumerator KillPlayer()
+	IEnumerator Attack(Vector2 targetPos, Player p)
 	{
-		Play(attackClip);
+		FaceEntity(targetPos);
+		PlayAudio(attackClip);
 		animator.Play("Attack");
-		yield return new WaitForSeconds(1);
-		Player.OnPlayerDie?.Invoke();
+		yield return new WaitForSeconds(0.5f);
+		yield return p.Die();
 	}
 	bool HitEntity(Vector2 pos)
 	{
@@ -67,8 +70,7 @@ public class Enemy : Entity
 		{
 			if (hit.collider.TryGetComponent(out Player p))
 			{
-				TurnManager.Singleton.StopAllCoroutines();
-				StartCoroutine(KillPlayer());
+				TurnManager.AddAttack(Attack(pos, p));
 				return true;
 			}
 			return true;

@@ -1,21 +1,37 @@
 using System.Collections;
-using DG.Tweening;
-
+using UnityEngine;
 public class Door : Interactable
 {
+	[SerializeField] AudioClip doorRattleClip;
+	Animator animator;
 	public string keyId;
 	public override void Action(Player player)
 	{
 		var data = player.inventory.GetAndRemoveCollectableData(keyId);
+		TurnManager.Singleton.StopAllCoroutines();
 		if (data == null)
-			return;
-
-		TurnManager.AddInteractable(Open());
+			StartCoroutine(Rattle());
+		else
+			StartCoroutine(Open());
+	}
+	IEnumerator Rattle()
+	{
+		source.PlayOneShot(doorRattleClip);
+		yield return new WaitForSeconds(GameSettings.tweenDuration);
+		TurnManager.Singleton.Start();
 	}
 
-	public IEnumerator Open()
+	IEnumerator Open()
 	{
-		yield return transform.DOScale(2, 0.5f).WaitForCompletion();
+		source.PlayOneShot(onInteractClip);
+		yield return new WaitForSeconds(GameSettings.tweenDuration);
+		TurnManager.Singleton.Start();
 		Destroy(gameObject);
+	}
+
+	protected override void Awake()
+	{
+		base.Awake();
+		animator = GetComponent<Animator>();
 	}
 }

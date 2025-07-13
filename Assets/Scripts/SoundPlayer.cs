@@ -5,11 +5,11 @@ using UnityEngine;
 public class SoundPlayer : MonoBehaviour
 {
 
-	protected void Play(AudioClip clip)
+	protected void PlayAudio(AudioClip clip)
 	{
 		source.PlayOneShot(clip);
 	}
-	protected void Play(AudioClip[] clips)
+	protected void PlayAudio(AudioClip[] clips)
 	{
 		var clip = Utils.GetRandomAudioClip(clips);
 		if (clip)

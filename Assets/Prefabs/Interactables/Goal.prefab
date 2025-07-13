@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cee87462efdee9e9b4e47fbf2c4808c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakClip: {fileID: 0}
 --- !u!95 &1630044322412371233
 Animator:
   serializedVersion: 7
