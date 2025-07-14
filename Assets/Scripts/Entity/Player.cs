@@ -47,6 +47,7 @@ public class Player : Entity
 		GameManager.Restart();
 	}
 	public static Action OnPlayerDie;
+	void OnDestroy() => OnPlayerDie = null;
 	Vector2 dir;
 	IEnumerator WaitForInput()
 	{
@@ -126,7 +127,7 @@ public class Player : Entity
 	}
 	void OnEnable() => TurnManager.OnPlayerPhase += HandleOnPlayerPhase;
 	void OnDisable() => TurnManager.OnPlayerPhase -= HandleOnPlayerPhase;
-	void HandleOnPlayerPhase() => TurnManager.AddPlayer(WaitForInput());
+	void HandleOnPlayerPhase() => TurnManager.Singleton.AddPlayer(WaitForInput());
 	[HideInInspector] public Inventory inventory;
 	protected override void Awake()
 	{

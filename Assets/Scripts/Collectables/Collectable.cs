@@ -16,7 +16,7 @@ public class Collectable : Moveable
 	public Sprite sprite;
 	public void Action(Player player)
 	{
-		TurnManager.AddInteractable(Pickup(player));
+		TurnManager.Singleton.AddInteractable(Pickup(player));
 	}
 	IEnumerator Pickup(Player player)
 	{

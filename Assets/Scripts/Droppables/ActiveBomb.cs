@@ -11,7 +11,7 @@ public class ActiveBomb : Droppable
 	{
 		if (currentStep == 2)
 		{
-			TurnManager.AddBomb(ExplodeRoutine());
+			TurnManager.Singleton.AddBomb(ExplodeRoutine());
 			return;
 		}
 		renderer.sprite = sprites[currentStep];

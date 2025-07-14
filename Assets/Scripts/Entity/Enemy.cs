@@ -31,7 +31,7 @@ public class Enemy : Entity
 
 			if (HitEntity(next))
 				return;
-			TurnManager.AddEnemy(Move(next));
+			TurnManager.Singleton.AddEnemy(Move(next));
 			
 		}
 	}
@@ -50,7 +50,7 @@ public class Enemy : Entity
 			var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, LayerMask.GetMask("Entity"));
 			if (hit.collider && hit.collider.TryGetComponent(out Player p))
 			{
-				TurnManager.AddAttack(Attack(pos, p));
+				TurnManager.Singleton.AddAttack(Attack(pos, p));
 				return;
 			}
 		}
@@ -70,7 +70,7 @@ public class Enemy : Entity
 		{
 			if (hit.collider.TryGetComponent(out Player p))
 			{
-				TurnManager.AddAttack(Attack(pos, p));
+				TurnManager.Singleton.AddAttack(Attack(pos, p));
 				return true;
 			}
 			return true;
@@ -92,7 +92,7 @@ public class Enemy : Entity
 		}
 
 		if (direction != Vector2.zero)
-			TurnManager.AddEnemy(Move(direction + (Vector2)transform.position));
+			TurnManager.Singleton.AddEnemy(Move(direction + (Vector2)transform.position));
 	}
 	bool CanMove(Vector2 direction)
 	{

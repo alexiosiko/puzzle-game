@@ -13,18 +13,17 @@ public class Explosion : MonoBehaviour
 		{
 			if (hit.collider.TryGetComponent(out Goal g))
 			{
-				TurnManager.AddExplosion(g.Break());
+				TurnManager.Singleton.AddExplosion(g.Break());
 			}
 			if (hit.collider.TryGetComponent(out Collectable c))
-					TurnManager.AddExplosion(c.Break());
+					TurnManager.Singleton.AddExplosion(c.Break());
 
 			if (hit.collider.TryGetComponent(out Breakable b))
-				TurnManager.AddExplosion(b.Break());
+				TurnManager.Singleton.AddExplosion(b.Break());
 
 			if (hit.collider.TryGetComponent(out Entity e))
-				TurnManager.AddExplosion(e.Die());
+				TurnManager.Singleton.AddExplosion(e.Die());
 		}
-		// TurnManager.Singleton.Wait(0.2f);
 
 		Destroy(gameObject, 0.2f);
     }

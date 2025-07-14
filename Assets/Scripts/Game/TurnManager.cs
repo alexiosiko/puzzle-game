@@ -6,27 +6,28 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-	static List<IEnumerator> playerCoroutines = new();
-	static List<IEnumerator> interactableCoroutines = new();
-	static List<IEnumerator> bombCoroutines = new();
-	static List<IEnumerator> enemyCoroutines = new();
-	static List<IEnumerator> attackCoroutines = new();
-	static List<IEnumerator> dieCoroutines = new();
-	static List<IEnumerator> explosionCoroutines = new();
+	List<IEnumerator> playerCoroutines = new();
+	List<IEnumerator> interactableCoroutines = new();
+	List<IEnumerator> bombCoroutines = new();
+	List<IEnumerator> enemyCoroutines = new();
+	List<IEnumerator> attackCoroutines = new();
+	List<IEnumerator> dieCoroutines = new();
+	List<IEnumerator> explosionCoroutines = new();
 	public bool isGameLooping = true;
 	public static event Action OnPlayerPhase;
 	public static event Action OnBombPhase;
 	public static event Action OnEnemyPhase;
-	public void Start() => StartCoroutine(GameLoop());
+ 	public void Start() => StartCoroutine(GameLoop());
 	IEnumerator GameLoop()
 	{
-		playerCoroutines.Clear();
-		interactableCoroutines.Clear();
-		bombCoroutines.Clear();
-		enemyCoroutines.Clear();
-		attackCoroutines.Clear();
-		dieCoroutines.Clear();
-		explosionCoroutines.Clear();
+		FreeList(ref playerCoroutines);
+		FreeList(ref interactableCoroutines);
+		FreeList(ref bombCoroutines);
+		FreeList(ref enemyCoroutines);
+		FreeList(ref attackCoroutines);
+		FreeList(ref dieCoroutines);
+		FreeList(ref explosionCoroutines);
+
 
 		while (isGameLooping)
 			yield return ProcessTurn();
@@ -84,15 +85,59 @@ public class TurnManager : MonoBehaviour
 		yield return coroutine;
 		onComplete();
 	}
+	void OnDestroy()
+	{
+		StopAllCoroutines(); 
+		ClearAllCoroutineLists();
+
+		FreeList(ref playerCoroutines);
+		FreeList(ref interactableCoroutines);
+		FreeList(ref bombCoroutines);
+		FreeList(ref enemyCoroutines);
+		FreeList(ref attackCoroutines);
+		FreeList(ref dieCoroutines);
+		FreeList(ref explosionCoroutines);
+
+		playerCoroutines = null;
+		interactableCoroutines = null;
+		bombCoroutines = null;
+		enemyCoroutines = null;
+		attackCoroutines = null;
+		dieCoroutines = null;
+		explosionCoroutines = null;
+
+		OnPlayerPhase = null;
+		OnBombPhase = null; 
+		OnEnemyPhase = null;
+	}
+	void ClearAllCoroutineLists()
+	{
+		playerCoroutines.Clear();
+		interactableCoroutines.Clear();
+		bombCoroutines.Clear();
+		enemyCoroutines.Clear();
+		attackCoroutines.Clear();
+		dieCoroutines.Clear();
+		explosionCoroutines.Clear();
+	}
+	void FreeList(ref List<IEnumerator> list)
+	{
+		foreach (var l in list)
+			StopCoroutine(l);
+		list.Clear();
+	}
+
+
 
 	public static TurnManager Singleton;
 	void Awake() => Singleton = this;
 	// Adders for each phase
-	public static void AddPlayer(IEnumerator action) => playerCoroutines.Add(action);
-	public static void AddInteractable(IEnumerator action) => interactableCoroutines.Add(action);
-	public static void AddBomb(IEnumerator action) => bombCoroutines.Add(action);
-	public static void AddEnemy(IEnumerator action) => enemyCoroutines.Add(action);
-	public static void AddAttack(IEnumerator action) => attackCoroutines.Add(action);
-	public static void AddDie(IEnumerator action) => dieCoroutines.Add(action);
-	public static void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
+	public void AddPlayer(IEnumerator action) => playerCoroutines.Add(action);
+	public void AddInteractable(IEnumerator action) => interactableCoroutines.Add(action);
+	public void AddBomb(IEnumerator action) => bombCoroutines.Add(action);
+	public void AddEnemy(IEnumerator action) => enemyCoroutines.Add(action);
+	public void AddAttack(IEnumerator action) => attackCoroutines.Add(action);
+	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
+	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
+	
 }

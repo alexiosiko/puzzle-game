@@ -13,5 +13,6 @@ public class GameManager : MonoBehaviour
 		TurnManager.Singleton.StopAllCoroutines();
 		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 	}
+	void OnDestroy() => onGameLose = null;
 
 }
