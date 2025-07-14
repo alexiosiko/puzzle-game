@@ -6,6 +6,8 @@ public class Moveable : Interactable
 {
 	public bool CanMove(Vector2 direction)
 	{
+		if (direction == Vector2.zero)
+			return false;
 		Vector2 targetPos = (Vector2)transform.position + direction;
 
 		// Ignore self and check target
