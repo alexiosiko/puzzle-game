@@ -2,8 +2,9 @@ using DG.Tweening;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-public class Moveable : Interactable
+public class Moveable : MonoBehaviour
 {
+	[SerializeField] AudioClip onMoveClip;
 	public bool CanMove(Vector2 direction)
 	{
 		if (direction == Vector2.zero)
@@ -34,10 +35,13 @@ public class Moveable : Interactable
 	}
 	public void Move(Vector2 direction)
 	{
-		source.Play();
+		source.PlayOneShot(onMoveClip);
 		transform.DOMove((Vector2)transform.position + direction, GameSettings.tweenDuration);
 	}
-	public override void Action(Player player)
+	protected AudioSource source;
+	protected virtual void Awake()
 	{
+		source = GetComponent<AudioSource>();
 	}
+
 }

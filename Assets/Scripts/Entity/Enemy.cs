@@ -5,9 +5,9 @@ public class Enemy : Entity
 {
 	[SerializeField] AudioClip attackClip;
 	[SerializeField] List<Vector2Int> path;
-	[SerializeField] Vector2Int targetPosition;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	Player player;
+
 	void HandleOnEnemyMove()
 	{
 		Vector2Int start = Vector2Int.FloorToInt(transform.position);
@@ -102,14 +102,7 @@ public class Enemy : Entity
 			return false;
 		return true;
 	}
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			Vector2Int start = Vector2Int.FloorToInt(transform.position);
-			path = AStarPathfinder.FindPath(start, targetPosition);
-		}
-	}
+
 	void OnEnable() => TurnManager.OnEnemyPhase += HandleOnEnemyMove;
 	void OnDisable() => TurnManager.OnEnemyPhase -= HandleOnEnemyMove;
 	protected override void Awake()

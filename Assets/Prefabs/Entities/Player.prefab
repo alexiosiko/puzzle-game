@@ -105,13 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0abe61763bae2fdaab1aa8cdcb3a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathClip: {fileID: 8300000, guid: 0d62c116d20cb5a49b63fa05f656a341, type: 3}
+  deathClip: {fileID: 8300000, guid: 7c850b8d7e6ac0e6694363a6a94841cc, type: 3}
   footstepClips:
-  - {fileID: 8300000, guid: d7c2400906fc1c74b94192550ce64435, type: 3}
-  - {fileID: 8300000, guid: 02bb7218c46aae7479282b4012438b03, type: 3}
-  - {fileID: 8300000, guid: f78cf8cd5f151634bb13b11b7cb83e17, type: 3}
-  dropClip: {fileID: 0}
-  inventory: {fileID: 0}
+  - {fileID: 8300000, guid: 2f2d0e52eb5518dddbf72d9e43de2654, type: 3}
+  - {fileID: 8300000, guid: 1bb4aba7391ce45cc80ebb70e5e11c06, type: 3}
+  dropClip: {fileID: 8300000, guid: 1766239a16c5c3cf4a283eb7beb683a0, type: 3}
+  inventory: {fileID: 6010298055689562711}
 --- !u!114 &6010298055689562711
 MonoBehaviour:
   m_ObjectHideFlags: 0

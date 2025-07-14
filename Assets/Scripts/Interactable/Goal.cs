@@ -1,23 +1,17 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
-public class Goal : Interactable
+public class Goal : Moveable
 {
-	[SerializeField] AudioClip breakClip;
-	public override void Action(Player player)
+	[SerializeField] AudioClip onInteractClip;
+	public IEnumerator Action(Player player)
 	{
-		source.Play();
-		TurnManager.Singleton.StopAllCoroutines();
-		StartCoroutine(LoadNextScene());
-	}
-	IEnumerator LoadNextScene()
-	{
+		source.PlayOneShot(onInteractClip);
 		yield return transform.DOScale(2, 0.5f).WaitForCompletion();
 		SceneLoader.NextScene();
 	}
 	public IEnumerator Break()
 	{
-		source.PlayOneShot(breakClip);
 		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();
 		GameManager.onGameLose?.Invoke();
 	}

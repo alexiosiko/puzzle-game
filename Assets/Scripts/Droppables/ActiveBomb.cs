@@ -25,7 +25,8 @@ public class ActiveBomb : Droppable
 		ExplodeInDirection(Vector2.up);
 		ExplodeInDirection(Vector2.right);
 		ExplodeInDirection(Vector2.down);
-		SpawnExplosion((Vector2)transform.position);
+		var b = SpawnExplosion((Vector2)transform.position);
+		b.GetComponent<Explosion>().PlayExplosionSound();
 
 		Destroy(gameObject);
 
@@ -50,5 +51,5 @@ public class ActiveBomb : Droppable
 		renderer = GetComponent<SpriteRenderer>();
 	}
 	new protected SpriteRenderer renderer;
-	void SpawnExplosion(Vector2 pos) => Instantiate(explosionGameObject, pos, Quaternion.identity);
+	GameObject SpawnExplosion(Vector2 pos) => Instantiate(explosionGameObject, pos, Quaternion.identity);
 }

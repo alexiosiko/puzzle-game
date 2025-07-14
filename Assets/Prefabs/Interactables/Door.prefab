@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1748697019046319916}
   - component: {fileID: 43412341374463186}
   - component: {fileID: 6841935196113264650}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,6 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd9161118670bab3b2e8066390ee362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteractClip: {fileID: 8300000, guid: 961516b74364f1048bc26d0918340def, type: 3}
-  doorRattleClip: {fileID: 8300000, guid: 77b3f36525e7cc24cb5b0b93e0c23043, type: 3}
+  onInteractClip: {fileID: 8300000, guid: b3a03e7375674bdfcacabb0b284ae199, type: 3}
+  doorRattleClip: {fileID: 8300000, guid: ba40425d23c327fe68f56803ec0ae583, type: 3}
   keyId: gold key

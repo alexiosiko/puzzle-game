@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6d302509a3742baa8549bba3544605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropClip: {fileID: 8300000, guid: b0993cada49181c4faf2e129f0f96850, type: 3}
+  dropClip: {fileID: 8300000, guid: ca367f80cdf2587a3acfd46105eb0536, type: 3}
   explosionGameObject: {fileID: 2793384097356286796, guid: dbcdae6f4eaedda0e8f9e8ed490340d0, type: 3}
   sprites:
   - {fileID: 1953638700, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
