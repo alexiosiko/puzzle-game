@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 public class AStarPathfinder
 {
@@ -59,11 +58,11 @@ public class AStarPathfinder
 	static bool IsWalkable(Vector2Int pos)
 	{
 
-		RaycastHit2D hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 0.1f, GameSettings.notWalkableLayers);
-		if (hit.collider)
+		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, GameSettings.notWalkableLayers);
+		if (hit)
 		{
 			// If hit entity, but it's a player, treat as walkable
-			if (hit.collider.TryGetComponent(out Player p))
+			if (hit.TryGetComponent(out Player p))
 				return true;
 			return false;
 		}

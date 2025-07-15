@@ -13,7 +13,7 @@ public class Moveable : MonoBehaviour
 		// if (targetPos)
 
 		// Ignore self and check target
-		RaycastHit2D hit = Physics2D.Raycast(targetPos + GameSettings.rayCastOffset, Vector2.zero, 1f);
+		var hit = Physics2D.OverlapPoint(targetPos + GameSettings.rayCastOffset);
 
 		if (!hit)
 		{
@@ -22,7 +22,7 @@ public class Moveable : MonoBehaviour
 		}
 
 		// If another moveable, check recursively
-		if (hit.collider.TryGetComponent(out Moveable m))
+		if (hit.TryGetComponent(out Moveable m))
 		{
 			bool canMoveOtherMoveable = m.CanMove(direction);
 			if (canMoveOtherMoveable)

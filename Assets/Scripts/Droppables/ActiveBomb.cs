@@ -39,8 +39,8 @@ public class ActiveBomb : Droppable
 		for (int i = 1; i < 3; i++)
 		{
 			Vector2 pos = (Vector2)transform.position + direction * i;
-			var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, stopExplosionLayer);
-			if (hit.collider)
+			var hit = Physics2D.OverlapPoint(pos, stopExplosionLayer);
+			if (hit)
 				return;
 			SpawnExplosion(pos);
 		}

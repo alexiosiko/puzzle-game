@@ -8,20 +8,20 @@ public class Explosion : MonoBehaviour
 	public void PlayExplosionSound() => source.PlayOneShot(explosionClip);
 	void Start()
 	{
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.zero, 10f, LayerMask.GetMask("Breakable", "Entity", "Collectable"));
+		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Entity", "Collectable"));
 		foreach(var hit in hits)
 		{
-			if (hit.collider.TryGetComponent(out Goal g))
+			if (hit.TryGetComponent(out Goal g))
 			{
 				TurnManager.Singleton.AddExplosion(g.Break());
 			}
-			if (hit.collider.TryGetComponent(out Collectable c))
+			if (hit.TryGetComponent(out Collectable c))
 					TurnManager.Singleton.AddExplosion(c.Break());
 
-			if (hit.collider.TryGetComponent(out Breakable b))
+			if (hit.TryGetComponent(out Breakable b))
 				TurnManager.Singleton.AddExplosion(b.Break());
 
-			if (hit.collider.TryGetComponent(out Entity e))
+			if (hit.TryGetComponent(out Entity e))
 				TurnManager.Singleton.AddExplosion(e.Die());
 		}
 

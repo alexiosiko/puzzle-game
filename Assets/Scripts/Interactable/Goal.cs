@@ -4,12 +4,14 @@ using UnityEngine;
 public class Goal : Moveable
 {
 	[SerializeField] AudioClip onInteractClip;
-	public IEnumerator Action(Player player)
+	public void Action(Player player)
 	{
+		TurnManager.Singleton.enabled = false;
 		source.PlayOneShot(onInteractClip);
-		yield return transform.DOScale(2, 0.5f).WaitForCompletion();
-		SceneLoader.NextScene();
+		transform.DOScale(2, 0.5f).WaitForCompletion();
+		Invoke(nameof(NextScene), 1f);
 	}
+	void NextScene() => SceneLoader.NextScene();
 	public IEnumerator Break()
 	{
 		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();

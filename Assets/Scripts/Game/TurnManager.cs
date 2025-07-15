@@ -17,8 +17,7 @@ public class TurnManager : MonoBehaviour
 	public static event Action OnPlayerPhase;
 	public static event Action OnBombPhase;
 	public static event Action OnEnemyPhase;
- 	public void Start() => StartCoroutine(GameLoop());
-	IEnumerator GameLoop()
+	public void Start()
 	{
 		FreeList(ref playerCoroutines);
 		FreeList(ref interactableCoroutines);
@@ -27,8 +26,11 @@ public class TurnManager : MonoBehaviour
 		FreeList(ref attackCoroutines);
 		FreeList(ref dieCoroutines);
 		FreeList(ref explosionCoroutines);
-
-
+		isGameLooping = true;
+		StartCoroutine(GameLoop());
+	}
+	IEnumerator GameLoop()
+	{
 		while (isGameLooping)
 			yield return ProcessTurn();
 	}
@@ -42,24 +44,23 @@ public class TurnManager : MonoBehaviour
 		yield return ProcessPhase(enemyCoroutines);
 
 		OnBombPhase?.Invoke();
-		yield return ProcessPhase(new List<IEnumerator>[] {
-			bombCoroutines,
-			interactableCoroutines
-		});
+		yield return ProcessPhase(bombCoroutines, interactableCoroutines);
 
 		yield return ProcessPhase(explosionCoroutines);
 
-		yield return ProcessPhase(new List<IEnumerator>[] {
-			attackCoroutines,
-			dieCoroutines,
-		});
+		yield return ProcessPhase(attackCoroutines, dieCoroutines);
+
+		print("Done phase");
 	}
-	IEnumerator ProcessPhase(List<IEnumerator>[] coroutineLists)
+	IEnumerator ProcessPhase(params List<IEnumerator>[] coroutineLists)
 	{
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
 		foreach (var list in coroutineLists)
 			foreach (var routine in list)
+			{
+
 				StartCoroutine(Wrap(routine, () => runningCoroutines--));
+			}
 
 		yield return new WaitUntil(() => runningCoroutines == 0);
 	}
@@ -87,8 +88,7 @@ public class TurnManager : MonoBehaviour
 	}
 	void OnDisable()
 	{
-		ClearAllCoroutineLists();
-
+		isGameLooping = false;
 		FreeList(ref playerCoroutines);
 		FreeList(ref interactableCoroutines);
 		FreeList(ref bombCoroutines);
@@ -96,17 +96,7 @@ public class TurnManager : MonoBehaviour
 		FreeList(ref attackCoroutines);
 		FreeList(ref dieCoroutines);
 		FreeList(ref explosionCoroutines);
-
-	}
-	void ClearAllCoroutineLists()
-	{
-		playerCoroutines.Clear();
-		interactableCoroutines.Clear();
-		bombCoroutines.Clear();
-		enemyCoroutines.Clear();
-		attackCoroutines.Clear();
-		dieCoroutines.Clear();
-		explosionCoroutines.Clear();
+		StopAllCoroutines(); // This is to stop game loop
 	}
 	void FreeList(ref List<IEnumerator> list)
 	{

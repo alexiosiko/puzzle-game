@@ -11,9 +11,9 @@ public class Player : Entity
 	protected override IEnumerator Move(Vector2 pos)
 	{
 		yield return base.Move(pos);  
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, LayerMask.GetMask("Collectable"));
-		if (hit.collider)
-			hit.collider.GetComponent<Collectable>()?.Action(this);
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Collectable"));
+		if (hit)
+			hit.GetComponent<Collectable>()?.Action(this);
 	}
 
 	void TryDropBomb()
@@ -31,12 +31,12 @@ public class Player : Entity
 			return false;
 
 		LayerMask exclude = ~LayerMask.GetMask("Collectable");
-		var hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 10f, exclude);
-		if (hit.collider)
+		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, exclude);
+		if (hit)
 		{
-			if (hit.collider.TryGetComponent(out Moveable m))
-				return m.CanMove(direction);
-			hit.collider.GetComponent<Interactable>()?.Action(this);
+			if (hit.TryGetComponent(out Moveable m))
+					return m.CanMove(direction);
+			hit.GetComponent<Interactable>()?.Action(this);
 			return false;
 		}
 		return true;
@@ -68,7 +68,14 @@ public class Player : Entity
 			}
 
 			newPos = (Vector2)transform.position + dir;
-			yield return HitGoal(newPos);
+			
+			// IF goal
+			Goal g = HitGoal(newPos);
+			if (g)
+			{
+				g.Action(this);
+				yield break;
+			}
 
 			canMove = CanMove(newPos, dir);
 
@@ -83,29 +90,30 @@ public class Player : Entity
 
 		// Extra
 		dir = Vector2.zero;
+		checkingForInput = false;
 		float fingerPressTime = 0.2f;
 		Invoke(nameof(EnableSetCheckingForInput), fingerPressTime);
 
-		checkingForInput = false;
 		yield return Move(newPos);
 	}
-	IEnumerator HitGoal(Vector2 pos)
+	Goal HitGoal(Vector2 pos)
 	{
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 1f, LayerMask.GetMask("Goal"));
-		if (hit && hit.collider.TryGetComponent(out Goal g))
-			yield return g.Action(this);
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Goal"));
+		if (hit && hit.TryGetComponent(out Goal g))
+			return g;
+		return null;	
 	}
 	IEnumerator Interact(Vector2 pos)
 	{
 		// Collectable just to include goal
 		int layerMask = LayerMask.GetMask("Interactable");
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, layerMask);
-		if (hit.collider)
+		var hit = Physics2D.OverlapPoint(pos, layerMask);
+		if (hit)
 		{
-			if (hit.collider.TryGetComponent(out Goal g))
-				yield return g.Action(this);
+			if (hit.TryGetComponent(out Goal g))
+				yield break;
 			else
-				yield return hit.collider.GetComponent<Interactable>().Action(this);
+				yield return hit.GetComponent<Interactable>().Action(this);
 		}
 	}
 	bool wantsToDropBomb = false;
@@ -119,12 +127,15 @@ public class Player : Entity
 		if (Input.GetKeyDown(KeyCode.Space))
 			wantsToDropBomb = true;
 
+		if (Input.GetKeyDown(KeyCode.F))
+			SceneLoader.NextScene();
+
 		
-		if (Input.GetKey(KeyCode.W)) dir = Vector2.up;
+		     if (Input.GetKey(KeyCode.W)) dir = Vector2.up;
 		else if (Input.GetKey(KeyCode.S)) dir = Vector2.down;
 		else if (Input.GetKey(KeyCode.A)) dir = Vector2.left;
 		else if (Input.GetKey(KeyCode.D)) dir = Vector2.right;
-	}
+}
 	void OnEnable() => TurnManager.OnPlayerPhase += HandleOnPlayerPhase;
 	void OnDisable() => TurnManager.OnPlayerPhase -= HandleOnPlayerPhase;
 	void HandleOnPlayerPhase() => TurnManager.Singleton.AddPlayer(WaitForInput());

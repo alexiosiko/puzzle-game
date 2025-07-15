@@ -7,11 +7,10 @@ public class Enemy : Entity
 	[SerializeField] List<Vector2Int> path;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	Player player;
-
 	void HandleOnEnemyMove()
 	{
 		Vector2Int start = Vector2Int.FloorToInt(transform.position);
-		Vector2Int target = Vector2Int.FloorToInt((Vector2)player.transform.position);
+		Vector2Int target = Vector2Int.FloorToInt(player.transform.position);
 		path = AStarPathfinder.FindPath(start, target);
 		if (path == null)
 		{
@@ -37,8 +36,7 @@ public class Enemy : Entity
 	}
 	protected override IEnumerator Move(Vector2 pos)
 	{
-		StartCoroutine(base.Move(pos));
-		yield return new WaitForSeconds(GameSettings.tweenDuration / 2f);
+		yield return base.Move(pos);
 		TryCanKillPlayer();
 			
 	}
@@ -47,8 +45,8 @@ public class Enemy : Entity
 		foreach (var d in Utils.directions)
 		{
 			Vector2 pos = (Vector2)transform.position + d;
-			var hit = Physics2D.Raycast(pos, Vector2.zero, 10f, LayerMask.GetMask("Entity"));
-			if (hit.collider && hit.collider.TryGetComponent(out Player p))
+			var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+			if (hit && hit.TryGetComponent(out Player p))
 			{
 				TurnManager.Singleton.AddAttack(Attack(pos, p));
 				return;
@@ -65,10 +63,10 @@ public class Enemy : Entity
 	}
 	bool HitEntity(Vector2 pos)
 	{
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 0, LayerMask.GetMask("Entity"));
-		if (hit.collider)
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+		if (hit)
 		{
-			if (hit.collider.TryGetComponent(out Player p))
+			if (hit.TryGetComponent(out Player p))
 			{
 				TurnManager.Singleton.AddAttack(Attack(pos, p));
 				return true;
@@ -97,18 +95,18 @@ public class Enemy : Entity
 	bool CanMove(Vector2 direction)
 	{
 		Vector2 pos = (Vector2)transform.position + direction;
-		var hit = Physics2D.Raycast(pos + GameSettings.rayCastOffset, Vector2.zero, 10f, GameSettings.notWalkableLayers);
-		if (hit.collider)
+		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, GameSettings.notWalkableLayers);
+		if (hit)
 			return false;
 		return true;
 	}
 
 	void OnEnable() => TurnManager.OnEnemyPhase += HandleOnEnemyMove;
 	void OnDisable() => TurnManager.OnEnemyPhase -= HandleOnEnemyMove;
-	void OnDestroy()
+	static void OnDestroy()
 	{
 		reservedPositions.Clear();
-	}
+	}  
 	protected override void Awake()
 	{
 		base.Awake();
