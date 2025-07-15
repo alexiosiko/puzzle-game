@@ -105,6 +105,10 @@ public class Enemy : Entity
 
 	void OnEnable() => TurnManager.OnEnemyPhase += HandleOnEnemyMove;
 	void OnDisable() => TurnManager.OnEnemyPhase -= HandleOnEnemyMove;
+	void OnDestroy()
+	{
+		reservedPositions.Clear();
+	}
 	protected override void Awake()
 	{
 		base.Awake();

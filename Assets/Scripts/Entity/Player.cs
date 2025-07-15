@@ -91,7 +91,7 @@ public class Player : Entity
 	}
 	IEnumerator HitGoal(Vector2 pos)
 	{
-		var hit = Physics2D.Raycast(pos, Vector2.zero, 1f, LayerMask.GetMask("Interactable"));
+		var hit = Physics2D.Raycast(pos, Vector2.zero, 1f, LayerMask.GetMask("Goal"));
 		if (hit && hit.collider.TryGetComponent(out Goal g))
 			yield return g.Action(this);
 	}

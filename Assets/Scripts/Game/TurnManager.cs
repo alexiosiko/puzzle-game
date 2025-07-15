@@ -85,9 +85,8 @@ public class TurnManager : MonoBehaviour
 		yield return coroutine;
 		onComplete();
 	}
-	void OnDestroy()
+	void OnDisable()
 	{
-		StopAllCoroutines(); 
 		ClearAllCoroutineLists();
 
 		FreeList(ref playerCoroutines);
@@ -98,17 +97,6 @@ public class TurnManager : MonoBehaviour
 		FreeList(ref dieCoroutines);
 		FreeList(ref explosionCoroutines);
 
-		playerCoroutines = null;
-		interactableCoroutines = null;
-		bombCoroutines = null;
-		enemyCoroutines = null;
-		attackCoroutines = null;
-		dieCoroutines = null;
-		explosionCoroutines = null;
-
-		OnPlayerPhase = null;
-		OnBombPhase = null; 
-		OnEnemyPhase = null;
 	}
 	void ClearAllCoroutineLists()
 	{
