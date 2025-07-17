@@ -4,7 +4,7 @@ public class AStarPathfinder
 {
 	static int maxX = 20;
 	static int maxY = 20;
-    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int end)
+    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, LayerMask notWalkableLayers)
 	{
 		Dictionary<Vector2Int, GridNode> allNodes = new();
 		List<GridNode> openSet = new();
@@ -31,7 +31,7 @@ public class AStarPathfinder
 			foreach (Vector2Int dir in Directions)
 			{
 				Vector2Int neighborPos = current.position + dir;
-				if (!IsInBounds(neighborPos) || !IsWalkable(neighborPos) || closedSet.Contains(neighborPos))
+				if (!IsInBounds(neighborPos) || !IsWalkable(neighborPos, notWalkableLayers) || closedSet.Contains(neighborPos))
 					continue;
 
 				int newCost = current.gCost + 1;
@@ -55,10 +55,10 @@ public class AStarPathfinder
 		return null; // No path found
 	}
 
-	static bool IsWalkable(Vector2Int pos)
+	static bool IsWalkable(Vector2Int pos, LayerMask notWalkable)
 	{
 
-		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, GameSettings.notWalkableLayers);
+		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, notWalkable);
 		if (hit)
 		{
 			// If hit entity, but it's a player, treat as walkable

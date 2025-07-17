@@ -43,11 +43,12 @@ public class Player : Entity
 	}
 	public override IEnumerator Die()
 	{
-		yield return transform.DOScale(0, 0.5f).WaitForCompletion();
-		GameManager.Restart();
+		// yield return base.Die();
+		animator.Play("Die");
+		yield return new WaitForSeconds(1f);
+		OnPlayerDie?.Invoke();
 	}
 	public static Action OnPlayerDie;
-	void OnDestroy() => OnPlayerDie = null;
 	Vector2 dir;
 	IEnumerator WaitForInput()
 	{
@@ -127,14 +128,12 @@ public class Player : Entity
 		if (Input.GetKeyDown(KeyCode.Space))
 			wantsToDropBomb = true;
 
-		if (Input.GetKeyDown(KeyCode.F))
-			SceneLoader.NextScene();
 
 		
-		     if (Input.GetKey(KeyCode.W)) dir = Vector2.up;
-		else if (Input.GetKey(KeyCode.S)) dir = Vector2.down;
-		else if (Input.GetKey(KeyCode.A)) dir = Vector2.left;
-		else if (Input.GetKey(KeyCode.D)) dir = Vector2.right;
+		     if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) dir = Vector2.up;
+		else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) dir = Vector2.down;
+		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) dir = Vector2.left;
+		else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) dir = Vector2.right;
 }
 	void OnEnable() => TurnManager.OnPlayerPhase += HandleOnPlayerPhase;
 	void OnDisable() => TurnManager.OnPlayerPhase -= HandleOnPlayerPhase;

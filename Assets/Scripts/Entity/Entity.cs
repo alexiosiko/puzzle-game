@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -8,6 +9,17 @@ public abstract class Entity : SoundPlayer
 {
 	[SerializeField] protected AudioClip deathClip;
 	[SerializeField] AudioClip[] footstepClips;
+	public static HashSet<Vector2Int> reservedPositions = new();
+	[SerializeField] protected LayerMask notWalkableLayers;
+
+
+	protected Entity HitEntity(Vector2 pos)
+	{
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+		if (hit)
+			return hit.GetComponent<Entity>();
+		return null;
+	}
 	protected virtual IEnumerator Move(Vector2 pos)
 	{
 		PlayAudio(footstepClips);
@@ -24,7 +36,7 @@ public abstract class Entity : SoundPlayer
 	}
 	public virtual IEnumerator Die()
 	{
-		yield return transform.DOScale(0, 0.5f).WaitForCompletion();
+		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();
 		Destroy(gameObject);
 	}
 	protected Animator animator;
@@ -32,5 +44,10 @@ public abstract class Entity : SoundPlayer
 	{
 		base.Awake();
 		animator = GetComponent<Animator>();
+
 	}
+	protected virtual void OnDestroy()
+	{
+		reservedPositions.Clear();
+	} 
 }

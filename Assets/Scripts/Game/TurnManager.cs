@@ -9,6 +9,7 @@ public class TurnManager : MonoBehaviour
 	List<IEnumerator> playerCoroutines = new();
 	List<IEnumerator> interactableCoroutines = new();
 	List<IEnumerator> bombCoroutines = new();
+	List<IEnumerator> projectileCoroutines = new();
 	List<IEnumerator> enemyCoroutines = new();
 	List<IEnumerator> attackCoroutines = new();
 	List<IEnumerator> dieCoroutines = new();
@@ -17,15 +18,10 @@ public class TurnManager : MonoBehaviour
 	public static event Action OnPlayerPhase;
 	public static event Action OnBombPhase;
 	public static event Action OnEnemyPhase;
+	public static event Action OnProjectilePhase;
 	public void Start()
 	{
-		FreeList(ref playerCoroutines);
-		FreeList(ref interactableCoroutines);
-		FreeList(ref bombCoroutines);
-		FreeList(ref enemyCoroutines);
-		FreeList(ref attackCoroutines);
-		FreeList(ref dieCoroutines);
-		FreeList(ref explosionCoroutines);
+		FreeLists();
 		isGameLooping = true;
 		StartCoroutine(GameLoop());
 	}
@@ -44,51 +40,34 @@ public class TurnManager : MonoBehaviour
 		yield return ProcessPhase(enemyCoroutines);
 
 		OnBombPhase?.Invoke();
-		yield return ProcessPhase(bombCoroutines, interactableCoroutines);
+		OnProjectilePhase?.Invoke();
+		yield return ProcessPhase(bombCoroutines, interactableCoroutines, projectileCoroutines);
 
 		yield return ProcessPhase(explosionCoroutines);
 
 		yield return ProcessPhase(attackCoroutines, dieCoroutines);
-
-		print("Done phase");
 	}
 	IEnumerator ProcessPhase(params List<IEnumerator>[] coroutineLists)
 	{
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
 		foreach (var list in coroutineLists)
 			foreach (var routine in list)
-			{
-
 				StartCoroutine(Wrap(routine, () => runningCoroutines--));
-			}
-
 		yield return new WaitUntil(() => runningCoroutines == 0);
-	}
+	}  
 	IEnumerator Wrap(IEnumerator routine, Action onDone)
 	{
-		yield return routine;
+		if (routine != null)
+			yield return routine;
 		onDone();
 	}
-	IEnumerator ProcessPhase(List<IEnumerator> coroutines)
-	{
-		int runningCoroutines = coroutines.Count;
-
-		foreach (var coroutine in coroutines)
-			StartCoroutine(ProcessSingle(coroutine, () => runningCoroutines--));
-
-		coroutines.Clear();
-
-		yield return new WaitUntil(() => runningCoroutines == 0);
-	}
-
 	IEnumerator ProcessSingle(IEnumerator coroutine, Action onComplete)
 	{
 		yield return coroutine;
 		onComplete();
 	}
-	void OnDisable()
+	public void FreeLists()
 	{
-		isGameLooping = false;
 		FreeList(ref playerCoroutines);
 		FreeList(ref interactableCoroutines);
 		FreeList(ref bombCoroutines);
@@ -96,6 +75,12 @@ public class TurnManager : MonoBehaviour
 		FreeList(ref attackCoroutines);
 		FreeList(ref dieCoroutines);
 		FreeList(ref explosionCoroutines);
+		FreeList(ref projectileCoroutines);
+	}
+	void OnDisable()
+	{
+		isGameLooping = false;
+		FreeLists();
 		StopAllCoroutines(); // This is to stop game loop
 	}
 	void FreeList(ref List<IEnumerator> list)
@@ -117,5 +102,6 @@ public class TurnManager : MonoBehaviour
 	public void AddAttack(IEnumerator action) => attackCoroutines.Add(action);
 	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
 	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
+	public void AddProjectile(IEnumerator action) => projectileCoroutines.Add(action);
 	
 }
