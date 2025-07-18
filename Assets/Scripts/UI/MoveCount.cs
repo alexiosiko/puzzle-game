@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MoveCount : MonoBehaviour
 {
-
 	TMP_Text text;
 	void HandleOnPlayerPhase()
 	{
@@ -16,6 +15,5 @@ public class MoveCount : MonoBehaviour
 	void Awake()
 	{
 		text = GetComponent<TMP_Text>();
-		text.text = "0";
 	}
 }
