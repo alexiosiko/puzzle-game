@@ -39,6 +39,7 @@ public class MusicManager : MonoBehaviour
 		} while (next == source.clip);
 		source.clip = next;
 		source.Play();
+		Invoke(nameof(PlayNextSong), source.clip.length);
 	}
 
 }
