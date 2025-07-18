@@ -52,11 +52,15 @@ public class TurnManager : MonoBehaviour
 	{
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
 		foreach (var list in coroutineLists)
-			foreach (var routine in list)
+		{
+				var listCopy = list.ToList(); // make a copy
+			foreach (var routine in listCopy)
 			{
 				if (routine != null)
 					StartCoroutine(Wrap(routine, () => runningCoroutines--));
 			}
+		}
+
 		yield return new WaitUntil(() => runningCoroutines == 0);
 	}  
 	IEnumerator Wrap(IEnumerator routine, Action onDone)
