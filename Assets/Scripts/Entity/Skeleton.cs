@@ -11,6 +11,7 @@ public class Skeleton : Enemy
 			var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
 			if (hit && hit.TryGetComponent(out Player p))
 			{
+
 				TurnManager.Singleton.AddAttack(Attack(p));
 				return true;
 			}

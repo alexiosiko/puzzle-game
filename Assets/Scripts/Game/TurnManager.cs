@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
@@ -36,12 +37,12 @@ public class TurnManager : MonoBehaviour
 		yield return ProcessPhase(playerCoroutines);
 
 		OnEnemyPhase?.Invoke();
+		OnProjectilePhase?.Invoke();
 		Enemy.reservedPositions.Clear();
-		yield return ProcessPhase(enemyCoroutines);
+		yield return ProcessPhase(enemyCoroutines, projectileCoroutines);
 
 		OnBombPhase?.Invoke();
-		OnProjectilePhase?.Invoke();
-		yield return ProcessPhase(bombCoroutines, interactableCoroutines, projectileCoroutines);
+		yield return ProcessPhase(bombCoroutines, interactableCoroutines);
 
 		yield return ProcessPhase(explosionCoroutines);
 
@@ -52,7 +53,10 @@ public class TurnManager : MonoBehaviour
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
 		foreach (var list in coroutineLists)
 			foreach (var routine in list)
-				StartCoroutine(Wrap(routine, () => runningCoroutines--));
+			{
+				if (routine != null)
+					StartCoroutine(Wrap(routine, () => runningCoroutines--));
+			}
 		yield return new WaitUntil(() => runningCoroutines == 0);
 	}  
 	IEnumerator Wrap(IEnumerator routine, Action onDone)
@@ -61,11 +65,7 @@ public class TurnManager : MonoBehaviour
 			yield return routine;
 		onDone();
 	}
-	IEnumerator ProcessSingle(IEnumerator coroutine, Action onComplete)
-	{
-		yield return coroutine;
-		onComplete();
-	}
+	
 	public void FreeLists()
 	{
 		FreeList(ref playerCoroutines);
@@ -100,6 +100,15 @@ public class TurnManager : MonoBehaviour
 	public void AddBomb(IEnumerator action) => bombCoroutines.Add(action);
 	public void AddEnemy(IEnumerator action) => enemyCoroutines.Add(action);
 	public void AddAttack(IEnumerator action) => attackCoroutines.Add(action);
+	public void RemoveAttack(int hashedCode)
+	{
+		foreach (var a in attackCoroutines)
+			if (a.GetHashCode() == hashedCode)
+			{
+				attackCoroutines.Remove(a);
+				return;
+			}
+	} 
 	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
 	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
 	public void AddProjectile(IEnumerator action) => projectileCoroutines.Add(action);

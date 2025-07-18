@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Explosion : MonoBehaviour
@@ -12,17 +13,20 @@ public class Explosion : MonoBehaviour
 		foreach(var hit in hits)
 		{
 			if (hit.TryGetComponent(out Goal g))
-			{
 				TurnManager.Singleton.AddExplosion(g.Break());
-			}
-			if (hit.TryGetComponent(out Collectable c))
-					TurnManager.Singleton.AddExplosion(c.Break());
+			else if (hit.TryGetComponent(out Collectable c))
+				TurnManager.Singleton.AddExplosion(c.Break());
 
-			if (hit.TryGetComponent(out Breakable b))
+			else if (hit.TryGetComponent(out Breakable b))
 				TurnManager.Singleton.AddExplosion(b.Break());
-
-			if (hit.TryGetComponent(out Entity e))
+			else if (hit.TryGetComponent(out Player p))
+				TurnManager.Singleton.AddExplosion(p.Die());
+			else if (hit.TryGetComponent(out Enemy e))
+			{
 				TurnManager.Singleton.AddExplosion(e.Die());
+				TurnManager.Singleton.RemoveAttack(e.attackHashedCode);
+
+			}
 		}
 
 		Destroy(gameObject, 0.2f);

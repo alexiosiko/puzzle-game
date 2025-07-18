@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Threading;
-using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Inventory))]
@@ -45,6 +43,7 @@ public class Player : Entity
 	{
 		// yield return base.Die();
 		animator.Play("Die");
+		PlayClip(dieClip);
 		yield return new WaitForSeconds(1f);
 		OnPlayerDie?.Invoke();
 	}

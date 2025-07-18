@@ -4,15 +4,15 @@ using UnityEngine;
 public abstract class Enemy : Entity
 {
 	[SerializeField] protected AudioClip attackClip;
-	protected Player player;
+	public Player player;
 	protected abstract void HandleOnEnemyMove();
 	protected abstract bool CanAttackPlayer();
 	[SerializeField] List<Vector2Int> path;
 	protected Vector2Int? GetNextMove(Transform targetTrasform)
 	{
 
-		Vector2Int start = Vector2Int.FloorToInt(transform.position);
-		Vector2Int target = Vector2Int.FloorToInt(targetTrasform.position);
+		Vector2Int start = Vector2Int.RoundToInt(transform.position);
+		Vector2Int target = Vector2Int.RoundToInt(targetTrasform.position);
 		path = AStarPathfinder.FindPath(start, target, notWalkableLayers);
 		if (path == null || path.Count == 0)
 			return null;
@@ -20,13 +20,20 @@ public abstract class Enemy : Entity
 		if (reservedPositions.Contains(pos))
 			return null;
 		reservedPositions.Add(pos);
+
 		return pos;
 	}
-
+	[HideInInspector] public int attackHashedCode;
 	protected IEnumerator Attack(Player p)
 	{
+		IEnumerator function = AttackWithHashCode(p);
+		attackHashedCode = function.GetHashCode();
+		return function;
+	}
+	IEnumerator AttackWithHashCode(Player p)
+	{
 		FaceEntity(p.transform.position);
-		PlayAudio(attackClip);
+		PlayClip(attackClip);
 		animator.Play("Attack");
 		yield return new WaitForSeconds(0.5f);
 		yield return p.Die();

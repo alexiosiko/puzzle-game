@@ -20,7 +20,7 @@ TagManager:
   - Moveable
   - Goal
   - Projectile
-  - 
+  - Lava
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lava
+    uniqueID: 1183524905
     locked: 0
   m_RenderingLayers:
   - Default

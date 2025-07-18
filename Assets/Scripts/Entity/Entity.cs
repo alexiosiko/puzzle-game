@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class Entity : SoundPlayer
 {
-	[SerializeField] protected AudioClip deathClip;
+	[SerializeField] protected AudioClip dieClip;
 	[SerializeField] AudioClip[] footstepClips;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	[SerializeField] protected LayerMask notWalkableLayers;
@@ -22,7 +22,7 @@ public abstract class Entity : SoundPlayer
 	}
 	protected virtual IEnumerator Move(Vector2 pos)
 	{
-		PlayAudio(footstepClips);
+		PlayClips(footstepClips);
 		FaceEntity(pos);
 		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
 	}

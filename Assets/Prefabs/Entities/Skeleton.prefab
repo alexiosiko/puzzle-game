@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456bfc01a77c12c78822563068f2657c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathClip: {fileID: 8300000, guid: 1b70c3fd2045f810b831a7441c27b8cd, type: 3}
+  dieClip: {fileID: 0}
   footstepClips:
   - {fileID: 8300000, guid: c181041af66514620b4ef2d03025228c, type: 3}
   - {fileID: 8300000, guid: b3d36da0a33150091bd0125b43b00fee, type: 3}
@@ -113,6 +113,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6464
   attackClip: {fileID: 8300000, guid: 1570697d2209b048a8da99b4b42a6372, type: 3}
+  player: {fileID: 0}
+  path: []
+  attackHashedCode: 0
 --- !u!61 &610341481728584735
 BoxCollider2D:
   m_ObjectHideFlags: 0

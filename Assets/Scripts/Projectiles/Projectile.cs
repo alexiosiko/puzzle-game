@@ -1,6 +1,7 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 [RequireComponent(typeof(AudioSource))]
 public class Projectile : MonoBehaviour
@@ -9,6 +10,7 @@ public class Projectile : MonoBehaviour
 	public Vector2 direction;
 	public int maxDistance;
 	int currentDistance;
+	[SerializeField] LayerMask collidables;
 	void OnEnable() => TurnManager.OnProjectilePhase += HandleOnProjectileTurn;
 	void OnDisable() => TurnManager.OnProjectilePhase -= HandleOnProjectileTurn;
 	public void Init(Vector2 direction, int maxDistance)
@@ -16,14 +18,20 @@ public class Projectile : MonoBehaviour
 		this.direction = direction;
 		this.maxDistance = maxDistance;
 		transform.right = direction;
+		if (CheckHit(Vector2.zero) == true)
+			Explode();
 	}
 	bool firstMove = true;
 	void HandleOnProjectileTurn()
 	{
-		if (currentDistance == maxDistance)
-			Destroy(gameObject);
 
 		if (firstMove == false && CheckHit(Vector2.zero) == true)
+		{
+			Explode();
+			return;
+		}
+
+		if (currentDistance == maxDistance)
 		{
 			Explode();
 			return;
@@ -46,11 +54,16 @@ public class Projectile : MonoBehaviour
 	bool CheckHit(Vector2 direction)
 	{
 		Vector2 newPos = (Vector2)transform.position + direction;
-		var hit = Physics2D.OverlapPoint(newPos);
+		var hit = Physics2D.OverlapPoint(newPos, collidables);
 		if (hit)
 		{
+			if (hit.TryGetComponent(out Enemy e))
+				return false;
 			if (hit.TryGetComponent(out Player p))
+			{
 				TurnManager.Singleton.AddDie(p.Die());
+				return true;
+			}
 			return true;
 		}
 		return false;

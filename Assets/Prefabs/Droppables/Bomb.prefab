@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1294780854, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
+  m_Sprite: {fileID: 1099737916, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,8 +104,8 @@ MonoBehaviour:
   dropClip: {fileID: 8300000, guid: ca367f80cdf2587a3acfd46105eb0536, type: 3}
   explosionGameObject: {fileID: 2793384097356286796, guid: dbcdae6f4eaedda0e8f9e8ed490340d0, type: 3}
   sprites:
-  - {fileID: 1953638700, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
-  - {fileID: 389164744, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
+  - {fileID: -801591729, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}
+  - {fileID: 1977031721, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}
 --- !u!82 &4687949109086452261
 AudioSource:
   m_ObjectHideFlags: 0
