@@ -8,10 +8,11 @@ public class Player : Entity
 	[SerializeField] AudioClip dropClip;
 	protected override IEnumerator Move(Vector2 pos)
 	{
-		yield return base.Move(pos);  
 		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Collectable"));
 		if (hit)
 			hit.GetComponent<Collectable>()?.Action(this);
+		yield return base.Move(pos);
+		
 	}
 
 	void TryDropBomb()
@@ -68,7 +69,7 @@ public class Player : Entity
 			}
 
 			newPos = (Vector2)transform.position + dir;
-			
+
 			// IF goal
 			Goal g = HitGoal(newPos);
 			if (g)
@@ -88,13 +89,16 @@ public class Player : Entity
 
 		} while (!canMove);
 
-		// Extra
+
+		// Handle input convienience
 		dir = Vector2.zero;
 		checkingForInput = false;
 		float fingerPressTime = 0.2f;
 		Invoke(nameof(EnableSetCheckingForInput), fingerPressTime);
 
-		yield return Move(newPos);
+
+		StopAllCoroutines();
+		StartCoroutine(Move(newPos));
 	}
 	Goal HitGoal(Vector2 pos)
 	{

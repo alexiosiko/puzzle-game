@@ -111,7 +111,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 343923553ac657b77a8c8c4167e2ec61, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 6464
+    m_Bits: 39232
   attackClip: {fileID: 8300000, guid: 1570697d2209b048a8da99b4b42a6372, type: 3}
   player: {fileID: 0}
   path: []

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 public abstract class Enemy : Entity
 {
@@ -8,20 +9,38 @@ public abstract class Enemy : Entity
 	protected abstract void HandleOnEnemyMove();
 	protected abstract bool CanAttackPlayer();
 	[SerializeField] List<Vector2Int> path;
-	protected Vector2Int? GetNextMove(Transform targetTrasform)
+	protected override IEnumerator Move(Vector2 pos)
+	{
+		PlayClips(footstepClips);
+		FaceEntity(pos);
+		yield return transform.DOMove(pos, GameSettings.tweenDuration / 1.20f).WaitForCompletion();
+	}
+	protected Vector2Int? GetNextMove(Vector2Int target)
 	{
 
 		Vector2Int start = Vector2Int.RoundToInt(transform.position);
-		Vector2Int target = Vector2Int.RoundToInt(targetTrasform.position);
 		path = AStarPathfinder.FindPath(start, target, notWalkableLayers);
 		if (path == null || path.Count == 0)
 			return null;
 		Vector2Int pos = path[0];
+
+		// Could want into entity cause we said we can walk through entites in path finding
+		if (WalkIntoEnemy(pos))
+			return null;
+
 		if (reservedPositions.Contains(pos))
 			return null;
 		reservedPositions.Add(pos);
 
+
 		return pos;
+	}
+	bool WalkIntoEnemy(Vector2 pos)
+	{
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+		if (hit && hit.TryGetComponent(out Enemy e))
+			return true;
+		return false;
 	}
 	[HideInInspector] public int attackHashedCode;
 	protected IEnumerator Attack(Player p)
@@ -45,7 +64,7 @@ public abstract class Enemy : Entity
 		base.Awake();
 		player = FindFirstObjectByType<Player>();
 	}
-	protected Vector2 GetDirectionToTarget(Transform target) => (target.position - transform.position).normalized;
+	protected Vector2 GetDirectionToTarget(Transform target) => Vector2Int.RoundToInt(transform.position) - Vector2Int.RoundToInt(transform.position);
 	// void MoveRandom()
 	// {
 	// 	Vector2[] directions = Utils.GetRandomDirections();

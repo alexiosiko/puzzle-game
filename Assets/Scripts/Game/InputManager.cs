@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
 			GameManager.Restart();
 
 		if (Input.GetKeyDown(KeyCode.K))
-			SceneLoader.NextScene();
+			SceneLoader.LoadScene();
 
 		if (Input.GetKeyDown(KeyCode.Escape))
 			CanvasManager.Singleton.ToggleMenu();

@@ -105,14 +105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0abe61763bae2fdaab1aa8cdcb3a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLoseClip: {fileID: 0}
   dieClip: {fileID: 8300000, guid: d92e336d93fb505c995dd1ff2febc28a, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: 2f2d0e52eb5518dddbf72d9e43de2654, type: 3}
   - {fileID: 8300000, guid: 1bb4aba7391ce45cc80ebb70e5e11c06, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 7424
+    m_Bits: 40192
   dropClip: {fileID: 8300000, guid: 1766239a16c5c3cf4a283eb7beb683a0, type: 3}
   checkingForInput: 1
   inventory: {fileID: 6010298055689562711}

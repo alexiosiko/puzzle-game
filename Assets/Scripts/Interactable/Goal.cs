@@ -13,7 +13,7 @@ public class Goal : Moveable
 		transform.DOScale(2, 0.5f).WaitForCompletion();
 		Invoke(nameof(NextScene), 1f);
 	}
-	void NextScene() => SceneLoader.NextScene();
+	void NextScene() => SceneLoader.LoadScene();
 	public IEnumerator Break()
 	{
 		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();

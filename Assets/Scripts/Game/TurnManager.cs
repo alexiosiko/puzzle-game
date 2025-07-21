@@ -20,21 +20,28 @@ public class TurnManager : MonoBehaviour
 	public static event Action OnBombPhase;
 	public static event Action OnEnemyPhase;
 	public static event Action OnProjectilePhase;
-	public void Start()
-	{
-		FreeLists();
-		isGameLooping = true;
-		StartCoroutine(GameLoop());
-	}
+
 	IEnumerator GameLoop()
 	{
 		while (isGameLooping)
 			yield return ProcessTurn();
 	}
+	bool waiting = false;
+	void UnWait() => waiting = false;
+	float minimumWaitingTimeBetweenTurns;
+
 	IEnumerator ProcessTurn()
 	{
+		yield return new WaitUntil(() => waiting == false);
+
 		OnPlayerPhase?.Invoke();
 		yield return ProcessPhase(playerCoroutines);
+
+		waiting = true;
+		Invoke(nameof(UnWait), minimumWaitingTimeBetweenTurns);
+
+		// Player to enemy delay
+		yield return new WaitForSeconds(GameSettings.tweenDuration / 1.9f);
 
 		OnEnemyPhase?.Invoke();
 		OnProjectilePhase?.Invoke();
@@ -47,6 +54,8 @@ public class TurnManager : MonoBehaviour
 		yield return ProcessPhase(explosionCoroutines);
 
 		yield return ProcessPhase(attackCoroutines, dieCoroutines);
+
+
 	}
 	IEnumerator ProcessPhase(params List<IEnumerator>[] coroutineLists)
 	{
@@ -83,6 +92,7 @@ public class TurnManager : MonoBehaviour
 	}
 	void OnDisable()
 	{
+		CancelInvoke();
 		isGameLooping = false;
 		FreeLists();
 		StopAllCoroutines(); // This is to stop game loop
@@ -97,7 +107,14 @@ public class TurnManager : MonoBehaviour
 
 
 	public static TurnManager Singleton;
-	void Awake() => Singleton = this;
+	void Awake()
+	{
+		minimumWaitingTimeBetweenTurns = GameSettings.tweenDuration + GameSettings.tweenDuration / 1.2f;
+		Singleton = this;
+		FreeLists();
+		isGameLooping = true;
+		StartCoroutine(GameLoop());
+	}
 	// Adders for each phase
 	public void AddPlayer(IEnumerator action) => playerCoroutines.Add(action);
 	public void AddInteractable(IEnumerator action) => interactableCoroutines.Add(action);

@@ -23,7 +23,7 @@ public class Vampire : Enemy
 		}
 
 
-		var next = GetNextMove(player.transform);
+		var next = GetNextMove(Vector2Int.RoundToInt(player.transform.position));
 
 		if (next == null)
 			return;
@@ -70,7 +70,6 @@ public class Vampire : Enemy
 			return false;
 			
 		direction = GetDirectionToTarget(player.transform);
-		print(direction);
 		if (direction.x != 0 && direction.y != 0)
 			return false;
 		Vector2 currentPos = (Vector2)transform.position;

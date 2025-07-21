@@ -7,8 +7,9 @@ public class Skeleton : Enemy
 	{
 		foreach (var d in Utils.directions)
 		{
-			Vector2 pos = (Vector2)transform.position + d;
-			var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+			Vector2 nextPos = (Vector2)transform.position + d;
+			var hit = Physics2D.OverlapPoint(nextPos, LayerMask.GetMask("Entity"));
+		
 			if (hit && hit.TryGetComponent(out Player p))
 			{
 
@@ -22,7 +23,7 @@ public class Skeleton : Enemy
 
 	protected override void HandleOnEnemyMove()
 	{
-		var next = GetNextMove(player.transform);
+		var next = GetNextMove(Vector2Int.RoundToInt(player.transform.position));
 		if (next == null)
 			return;
 		if (CanAttackPlayer())

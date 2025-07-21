@@ -246,9 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd9161118670bab3b2e8066390ee362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteractClip: {fileID: 8300000, guid: b3a03e7375674bdfcacabb0b284ae199, type: 3}
+  onInteractClip: {fileID: 8300000, guid: 0236e5ab84f5435cfb4a96db87add9ba, type: 3}
   doorRattleClip: {fileID: 8300000, guid: ba40425d23c327fe68f56803ec0ae583, type: 3}
-  keyId: gold key
+  keyId: red key
 --- !u!1 &3850717063634091595
 GameObject:
   m_ObjectHideFlags: 0

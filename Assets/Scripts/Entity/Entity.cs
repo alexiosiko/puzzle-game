@@ -8,7 +8,7 @@ using UnityEngine;
 public abstract class Entity : SoundPlayer
 {
 	[SerializeField] protected AudioClip dieClip;
-	[SerializeField] AudioClip[] footstepClips;
+	[SerializeField] protected AudioClip[] footstepClips;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	[SerializeField] protected LayerMask notWalkableLayers;
 

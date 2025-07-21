@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CanvasManager : MonoBehaviour
 {
 	[SerializeField] GameObject menuGameObject;
+	[SerializeField] GameObject eventSystemPrefab;
+	public void ChangeScene(string sceneName) => SceneLoader.LoadScene(sceneName);
 	public void ToggleMenu()
 	{
 		if (menuGameObject.activeInHierarchy)
