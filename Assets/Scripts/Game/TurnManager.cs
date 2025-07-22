@@ -40,8 +40,6 @@ public class TurnManager : MonoBehaviour
 		waiting = true;
 		Invoke(nameof(UnWait), minimumWaitingTimeBetweenTurns);
 
-		// Player to enemy delay
-		yield return new WaitForSeconds(GameSettings.tweenDuration / 1.9f);
 
 		OnEnemyPhase?.Invoke();
 		OnProjectilePhase?.Invoke();
@@ -62,7 +60,7 @@ public class TurnManager : MonoBehaviour
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
 		foreach (var list in coroutineLists)
 		{
-				var listCopy = list.ToList(); // make a copy
+			var listCopy = list.ToList(); // make a copy
 			foreach (var routine in listCopy)
 			{
 				if (routine != null)
@@ -95,6 +93,7 @@ public class TurnManager : MonoBehaviour
 		CancelInvoke();
 		isGameLooping = false;
 		FreeLists();
+		Enemy.reservedPositions.Clear();
 		StopAllCoroutines(); // This is to stop game loop
 	}
 	void FreeList(ref List<IEnumerator> list)
@@ -103,13 +102,10 @@ public class TurnManager : MonoBehaviour
 			StopCoroutine(l);
 		list.Clear();
 	}
-
-
-
 	public static TurnManager Singleton;
 	void Awake()
 	{
-		minimumWaitingTimeBetweenTurns = GameSettings.tweenDuration + GameSettings.tweenDuration / 1.2f;
+		minimumWaitingTimeBetweenTurns = GameSettings.tweenDuration + GameSettings.tweenDuration / 1.7f;
 		Singleton = this;
 		FreeLists();
 		isGameLooping = true;

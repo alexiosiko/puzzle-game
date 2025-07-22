@@ -1,11 +1,11 @@
-using System.Collections;
+ using System.Collections;
 using System.IO;
 using UnityEngine;
 
 public class Vampire : Enemy
 {
 	[SerializeField] GameObject fireballPrefab;
-	[SerializeField] GameObject currentFireBall;
+	GameObject currentFireBall;
 	int maxDistance = 5;
 	bool waitOneTurn = false;
 	protected override void HandleOnEnemyMove()
@@ -28,14 +28,8 @@ public class Vampire : Enemy
 		if (next == null)
 			return;
 			
-
-		print("1");
-
-
 		if (WalkIntoPlayer((Vector2)next))
 			return;
-
-		print("2");
 
 		TurnManager.Singleton.AddEnemy(Move((Vector2)next));
 	}
@@ -56,26 +50,28 @@ public class Vampire : Enemy
 	void SpawnFireball(Vector2 pos)
 	{
 		PlayClip(attackClip);
+		animator.Play("Attack");
 		waitOneTurn = true;
-		print(pos);
 		currentFireBall = Instantiate(fireballPrefab);
 		currentFireBall.transform.position = pos;
+		FaceEntity(direction + pos);
 		Projectile p = currentFireBall.GetComponent<Projectile>();
 		p.Init(direction, maxDistance);
 
 	}
+	[SerializeField] LayerMask cannotShootThrough; 
 	protected override bool CanAttackPlayer()
 	{
 		if (currentFireBall != null)
 			return false;
-			
+
 		direction = GetDirectionToTarget(player.transform);
 		if (direction.x != 0 && direction.y != 0)
 			return false;
 		Vector2 currentPos = (Vector2)transform.position;
-		var stoppables = LayerMask.GetMask("Wall", "Moveable", "Entity", "Interactable");
-		var hit = Physics2D.Raycast(currentPos + direction, direction, maxDistance, stoppables);
-  
+		Debug.DrawLine(currentPos + direction, currentPos + direction * maxDistance, Color.red, 1f);
+
+		var hit = Physics2D.Raycast(currentPos + direction, direction, maxDistance, cannotShootThrough);
 		if (hit)
 		{
 			if (hit.collider.TryGetComponent(out Player p))

@@ -271,5 +271,5 @@ MonoBehaviour:
   onMoveClip: {fileID: 8300000, guid: c195b5730c08f02ffadcba1c11c1cc83, type: 3}
   onPickupClip: {fileID: 8300000, guid: 3bafdb2d4b68df2d28937e870f8f34c0, type: 3}
   prefab: {fileID: 0}
-  id: gold key
+  id: key
   sprite: {fileID: 1095141833252711340, guid: 781f6a7ef259327bc942200c9ca7ef61, type: 3}

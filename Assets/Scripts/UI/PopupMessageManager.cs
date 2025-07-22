@@ -18,7 +18,7 @@ public class PopupMessageManager : MonoBehaviour
 	{
 		transform.DOKill();
 		yield return AnimateText(message);
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(2f);
 		yield return AnimateRemoveText();
 	}
 

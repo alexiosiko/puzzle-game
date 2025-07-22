@@ -11,8 +11,6 @@ public abstract class Entity : SoundPlayer
 	[SerializeField] protected AudioClip[] footstepClips;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	[SerializeField] protected LayerMask notWalkableLayers;
-
-
 	protected Entity HitEntity(Vector2 pos)
 	{
 		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
@@ -24,7 +22,16 @@ public abstract class Entity : SoundPlayer
 	{
 		PlayClips(footstepClips);
 		FaceEntity(pos);
-		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
+		if (HitProjectile(pos))
+		{
+			yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
+			yield break;
+		}
+		else
+		{
+			yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
+			HitProjectile(pos);
+		}
 	}
 	protected void FaceEntity(Vector2 target)
 	{
@@ -34,20 +41,31 @@ public abstract class Entity : SoundPlayer
 		else if (x > 0)
 			transform.localScale = new(1, 1, 1);
 	}
-	public virtual IEnumerator Die()
+	protected bool HitProjectile(Vector2 pos)
 	{
-		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();
-		Destroy(gameObject);
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Projectile"));
+		if (hit)
+		{
+			hit.GetComponent<Projectile>().Explode();
+			TurnManager.Singleton.AddDie(Die());
+			return true;
+		}
+		return false;
+
 	}
+	public abstract IEnumerator Die();
 	protected Animator animator;
+	protected new BoxCollider2D collider;
 	protected override void Awake()
 	{
+		collider = GetComponent<BoxCollider2D>();
 		base.Awake();
 		animator = GetComponent<Animator>();
 
 	}
 	protected virtual void OnDestroy()
 	{
-		reservedPositions.Clear();
+		transform.DOKill();
+		CancelInvoke();
 	} 
 }

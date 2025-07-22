@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -12,7 +13,11 @@ public class Player : Entity
 		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Collectable"));
 		if (hit)
 			hit.GetComponent<Collectable>()?.Action(this);
-		yield return base.Move(pos);
+
+		PlayClips(footstepClips);
+		FaceEntity(pos);
+		transform.DOMove(pos, GameSettings.tweenDuration);
+		yield return new WaitForSeconds(GameSettings.tweenDuration / 1.7f);
 		
 	}
 
@@ -102,8 +107,7 @@ public class Player : Entity
 		Invoke(nameof(EnableSetCheckingForInput), fingerPressTime);
 
 
-		StopAllCoroutines();
-		StartCoroutine(Move(newPos));
+		yield return Move(newPos);
 	}
 	Goal HitGoal(Vector2 pos)
 	{

@@ -559,6 +559,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: --- Music ---
       objectReference: {fileID: 0}
+    - target: {fileID: 5483269403243659022, guid: 886e0738579a92792b99bd118cb11231, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9002400992697420484, guid: 886e0738579a92792b99bd118cb11231, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1194.0778
@@ -782,6 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuGameObject: {fileID: 0}
+  eventSystemPrefab: {fileID: 0}
 --- !u!1 &1567158528
 GameObject:
   m_ObjectHideFlags: 0

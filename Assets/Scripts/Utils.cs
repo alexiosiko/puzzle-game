@@ -2,16 +2,14 @@ using UnityEngine;
 
 public static class Utils
 {
-	public static Vector2[] directions = {
-			Vector2.left,
-			Vector2.right,
-			Vector2.up,
-			Vector2.down,
+	public static Vector2Int[] directions = {
+			Vector2Int.left,
+			Vector2Int.right,
+			Vector2Int.up,
+			Vector2Int.down,
 		};
-	public static Vector2[] GetRandomDirections()
+	public static Vector2Int[] GetRandomDirections()
 	{
-		
-
 		for (int i = 0; i < directions.Length - 1; i++)
 		{
 			int j = Random.Range(0, i + 1);

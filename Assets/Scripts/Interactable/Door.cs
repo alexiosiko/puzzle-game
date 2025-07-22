@@ -15,17 +15,21 @@ public class Door : Interactable
 	}
 	IEnumerator Rattle()
 	{
+		animator.Play("Rattle");
 		source.PlayOneShot(doorRattleClip);
 		yield return new WaitForSeconds(GameSettings.tweenDuration);
 	}
 
 	IEnumerator Open(bool checkForNearby)
 	{
+		animator.Play("Open");
+		collider.enabled = false;
+		
 		source.PlayOneShot(onInteractClip);
 		if (checkForNearby)
 			OpenNearBy();
 		yield return new WaitForSeconds(GameSettings.tweenDuration);
-		Destroy(gameObject);
+		Destroy(gameObject, 1f);
 	}
 	void OpenNearBy()
 	{
@@ -37,9 +41,10 @@ public class Door : Interactable
 				d.StartCoroutine(d.Open(false));
 		}
 	}
-
+	new BoxCollider2D collider;
 	protected override void Awake()
 	{
+		collider = GetComponent<BoxCollider2D>();
 		base.Awake();
 		animator = GetComponent<Animator>();
 	}

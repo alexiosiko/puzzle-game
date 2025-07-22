@@ -4,17 +4,20 @@ using DG.Tweening;
 using UnityEngine;
 public abstract class Enemy : Entity
 {
+	public override IEnumerator Die()
+	{
+		collider.enabled = false;
+		animator.Play("Die");
+		enabled = false;
+		Destroy(gameObject, 1f);
+		yield return new WaitForSeconds(GameSettings.tweenDuration);
+	}
 	[SerializeField] protected AudioClip attackClip;
-	public Player player;
+	[HideInInspector] public Player player;
 	protected abstract void HandleOnEnemyMove();
 	protected abstract bool CanAttackPlayer();
 	[SerializeField] List<Vector2Int> path;
-	protected override IEnumerator Move(Vector2 pos)
-	{
-		PlayClips(footstepClips);
-		FaceEntity(pos);
-		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
-	}
+
 	protected Vector2Int? GetNextMove(Vector2Int target)
 	{
 
@@ -34,7 +37,9 @@ public abstract class Enemy : Entity
 
 
 		return pos;
-	}
+	}  
+	
+	
 	bool WalkIntoEnemy(Vector2 pos)
 	{
 		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
@@ -45,6 +50,7 @@ public abstract class Enemy : Entity
 	[HideInInspector] public int attackHashedCode;
 	protected IEnumerator Attack(Player p)
 	{
+		animator.Play("Attack");
 		IEnumerator function = AttackWithHashCode(p);
 		attackHashedCode = function.GetHashCode();
 		return function;
@@ -64,7 +70,11 @@ public abstract class Enemy : Entity
 		base.Awake();
 		player = FindFirstObjectByType<Player>();
 	}
-	protected Vector2 GetDirectionToTarget(Transform target) => Vector2Int.RoundToInt(transform.position) - Vector2Int.RoundToInt(transform.position);
+	protected Vector2 GetDirectionToTarget(Transform target)
+	{
+		Vector2 delta = Vector2Int.RoundToInt(target.position) - Vector2Int.RoundToInt(transform.position);
+		return delta.normalized;
+	} 
 	// void MoveRandom()
 	// {
 	// 	Vector2[] directions = Utils.GetRandomDirections();

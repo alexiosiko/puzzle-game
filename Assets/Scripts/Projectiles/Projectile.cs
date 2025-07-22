@@ -18,8 +18,8 @@ public class Projectile : MonoBehaviour
 		this.direction = direction;
 		this.maxDistance = maxDistance;
 		transform.right = direction;
-		if (CheckHit(Vector2.zero) == true)
-			Explode();
+		// if (CheckHit(Vector2.zero) == true)
+		// 	Explode();
 	}
 	bool firstMove = true;
 	void HandleOnProjectileTurn()
@@ -27,6 +27,7 @@ public class Projectile : MonoBehaviour
 
 		if (firstMove == false && CheckHit(Vector2.zero) == true)
 		{
+			firstMove = false;
 			Explode();
 			return;
 		}
@@ -46,7 +47,7 @@ public class Projectile : MonoBehaviour
 
 		TurnManager.Singleton.AddProjectile(Move());
 	}
-	void Explode()
+	public void Explode()
 	{
 		AudioManager.Singleton.PlayClip(explosionClip);
 		Destroy(gameObject);
@@ -58,7 +59,10 @@ public class Projectile : MonoBehaviour
 		if (hit)
 		{
 			if (hit.TryGetComponent(out Enemy e))
-				return false;
+			{
+				TurnManager.Singleton.AddDie(e.Die());
+				return true;
+			}
 			if (hit.TryGetComponent(out Player p))
 			{
 				TurnManager.Singleton.AddDie(p.Die());

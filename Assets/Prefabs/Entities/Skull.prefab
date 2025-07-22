@@ -270,12 +270,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8161f56d6593dbb2faba167868049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathClip: {fileID: 0}
+  dieClip: {fileID: 0}
   footstepClips:
   - {fileID: 8300000, guid: 489ff45bd5644e3eaa820e712f7b8a83, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 7232
+    m_Bits: 6208
   attackClip: {fileID: 8300000, guid: a7833fea3bc3851c39709a1e557354ad, type: 3}
   player: {fileID: 0}
   path: []

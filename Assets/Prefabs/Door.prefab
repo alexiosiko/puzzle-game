@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1748697019046319916}
   - component: {fileID: 43412341374463186}
   - component: {fileID: 6841935196113264650}
+  - component: {fileID: 1666933264472590656}
   m_Layer: 11
   m_Name: Door
   m_TagString: Untagged
@@ -248,7 +249,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onInteractClip: {fileID: 8300000, guid: 0236e5ab84f5435cfb4a96db87add9ba, type: 3}
   doorRattleClip: {fileID: 8300000, guid: ba40425d23c327fe68f56803ec0ae583, type: 3}
-  keyId: red key
+  keyId: key
+--- !u!95 &1666933264472590656
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2555220458215371381}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7ab8939da02a04e88a9b791af7e2ba8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3850717063634091595
 GameObject:
   m_ObjectHideFlags: 0

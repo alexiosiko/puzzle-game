@@ -9,13 +9,8 @@ public class Skeleton : Enemy
 		{
 			Vector2 nextPos = (Vector2)transform.position + d;
 			var hit = Physics2D.OverlapPoint(nextPos, LayerMask.GetMask("Entity"));
-		
 			if (hit && hit.TryGetComponent(out Player p))
-			{
-
-				TurnManager.Singleton.AddAttack(Attack(p));
 				return true;
-			}
 		}
 		return false;
 	}
@@ -27,9 +22,13 @@ public class Skeleton : Enemy
 		if (next == null)
 			return;
 		if (CanAttackPlayer())
+		{
+			TurnManager.Singleton.AddAttack(Attack(player));
 			return;
+		}
 		TurnManager.Singleton.AddEnemy(Move((Vector2)next));
 	}
+	
 	protected override IEnumerator Move(Vector2 pos)
 	{
 		yield return base.Move(pos);
