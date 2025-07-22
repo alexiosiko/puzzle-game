@@ -13,7 +13,7 @@ public abstract class Enemy : Entity
 	{
 		PlayClips(footstepClips);
 		FaceEntity(pos);
-		yield return transform.DOMove(pos, GameSettings.tweenDuration / 1.20f).WaitForCompletion();
+		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
 	}
 	protected Vector2Int? GetNextMove(Vector2Int target)
 	{

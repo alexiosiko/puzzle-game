@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 [RequireComponent(typeof(Inventory))]
@@ -20,6 +21,10 @@ public class Player : Entity
 		var c = inventory.GetCollectableData("bomb");
 		if (c == null)
 			return;
+		var hit = Physics2D.OverlapPoint(transform.position, LayerMask.GetMask("Droppable"));
+		if (hit)
+			return;
+
 		
 		Instantiate(c.prefab, transform.position, Quaternion.identity);
 		inventory.RemoveCollectable(c);
@@ -29,8 +34,8 @@ public class Player : Entity
 		if (direction == Vector2.zero || (Vector2)transform.position == pos)
 			return false;
 
-		LayerMask exclude = ~LayerMask.GetMask("Collectable");
-		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, exclude);
+		// LayerMask exclude = ~LayerMask.GetMask("Collectable", "Droppable");
+		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, notWalkableLayers);
 		if (hit)
 		{
 			if (hit.TryGetComponent(out Moveable m))

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
-	public static void LoadScene()
+	public static void NextScene()
 	{
 		string currentSceneName = SceneManager.GetActiveScene().name;
 		int num = int.Parse(currentSceneName);

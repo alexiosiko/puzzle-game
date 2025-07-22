@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+[RequireComponent(typeof(BoxCollider2D))]
 public class ActiveBomb : Droppable
 {
 	[SerializeField] GameObject explosionGameObject;
