@@ -23,7 +23,7 @@ public class Door : Interactable
 	IEnumerator Open(bool checkForNearby)
 	{
 		animator.Play("Open");
-		collider.enabled = false;
+		_collider.enabled = false;
 		
 		source.PlayOneShot(onInteractClip);
 		if (checkForNearby)
@@ -41,10 +41,10 @@ public class Door : Interactable
 				d.StartCoroutine(d.Open(false));
 		}
 	}
-	new BoxCollider2D collider;
+	BoxCollider2D _collider;
 	protected override void Awake()
 	{
-		collider = GetComponent<BoxCollider2D>();
+		_collider = GetComponent<BoxCollider2D>();
 		base.Awake();
 		animator = GetComponent<Animator>();
 	}

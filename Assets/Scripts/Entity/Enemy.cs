@@ -6,7 +6,7 @@ public abstract class Enemy : Entity
 {
 	public override IEnumerator Die()
 	{
-		collider.enabled = false;
+		_collider.enabled = false;
 		animator.Play("Die");
 		enabled = false;
 		Destroy(gameObject, 1f);

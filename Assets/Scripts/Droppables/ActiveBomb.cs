@@ -15,7 +15,7 @@ public class ActiveBomb : Droppable
 			TurnManager.Singleton.AddBomb(ExplodeRoutine());
 			return;
 		}
-		renderer.sprite = sprites[currentStep];
+		_renderer.sprite = sprites[currentStep];
 		currentStep++;
 
 	}
@@ -49,8 +49,8 @@ public class ActiveBomb : Droppable
 	protected override void Awake()
 	{
 		base.Awake();
-		renderer = GetComponent<SpriteRenderer>();
+		_renderer = GetComponent<SpriteRenderer>();
 	}
-	new protected SpriteRenderer renderer;
+	protected SpriteRenderer _renderer;
 	GameObject SpawnExplosion(Vector2 pos) => Instantiate(explosionGameObject, pos, Quaternion.identity);
 }

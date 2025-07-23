@@ -9,7 +9,7 @@ using UnityEngine;
 public class Collectable : Moveable
 {
 	[SerializeField] AudioClip onPickupClip;
-	new SpriteRenderer renderer;
+	SpriteRenderer _renderer; 
 	Sprite firstSprite;
 	public GameObject prefab;
 	public string id;
@@ -21,8 +21,8 @@ public class Collectable : Moveable
 	IEnumerator Pickup(Player player)
 	{
 		source.PlayOneShot(onPickupClip);
-		renderer.sprite = firstSprite;
-		player.inventory.AddCollectable(new CollectableData(id, renderer, prefab));
+		_renderer.sprite = firstSprite;
+		player.inventory.AddCollectable(new CollectableData(id, _renderer, prefab));
 		yield return transform.DOScaleX(0, GameSettings.tweenDuration).WaitForCompletion();
 		Destroy(gameObject);
 	}
@@ -35,7 +35,7 @@ public class Collectable : Moveable
 	protected override void Awake()
 	{
 		base.Awake();
-		renderer = GetComponent<SpriteRenderer>();
-		firstSprite = renderer.sprite;
+		_renderer = GetComponent<SpriteRenderer>();
+		firstSprite = _renderer.sprite;
 	}
 }

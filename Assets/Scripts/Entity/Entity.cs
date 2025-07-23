@@ -55,10 +55,10 @@ public abstract class Entity : SoundPlayer
 	}
 	public abstract IEnumerator Die();
 	protected Animator animator;
-	protected new BoxCollider2D collider;
+	protected BoxCollider2D _collider;
 	protected override void Awake()
 	{
-		collider = GetComponent<BoxCollider2D>();
+		_collider = GetComponent<BoxCollider2D>();
 		base.Awake();
 		animator = GetComponent<Animator>();
 
