@@ -9,7 +9,8 @@ public class Goal : Moveable
 		// Do this to prevent infinite looping
 		TurnManager.Singleton.enabled = false;
 		
-		source.PlayOneShot(onInteractClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(onInteractClip);
 		transform.DOScale(2, 0.5f).WaitForCompletion();
 		Invoke(nameof(NextScene), 1f);
 	}

@@ -6,7 +6,11 @@ public class Explosion : MonoBehaviour
 	[SerializeField] AudioClip explosionClip;
 	AudioSource source;
 	void Awake() => source = GetComponent<AudioSource>();
-	public void PlayExplosionSound() => source.PlayOneShot(explosionClip);
+	public void PlayExplosionSound()
+	{
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(explosionClip);
+	} 
 	void Start()
 	{
 		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Entity", "Collectable", "Player"));

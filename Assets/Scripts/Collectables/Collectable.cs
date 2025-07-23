@@ -20,7 +20,8 @@ public class Collectable : Moveable
 	}
 	IEnumerator Pickup(Player player)
 	{
-		source.PlayOneShot(onPickupClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(onPickupClip);
 		_renderer.sprite = firstSprite;
 		player.inventory.AddCollectable(new CollectableData(id, _renderer, prefab));
 		yield return transform.DOScaleX(0, GameSettings.tweenDuration).WaitForCompletion();

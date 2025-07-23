@@ -23,7 +23,7 @@ public abstract class Projectile : MonoBehaviour
 	protected abstract void HandleOnProjectileTurn();
 	public void Explode()
 	{
-		AudioManager.Singleton.PlayClip(explosionClip);
+		EffectsManager.Singleton.PlayClip(explosionClip);
 		Invoke(nameof(LateDoKill), GameSettings.tweenDuration / 1.1f);
 		Destroy(gameObject, GameSettings.tweenDuration);
 	}

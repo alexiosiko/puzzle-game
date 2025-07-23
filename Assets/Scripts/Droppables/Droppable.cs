@@ -11,6 +11,7 @@ public class Droppable : MonoBehaviour
 	}
 	protected virtual void Start()
 	{
-		source.PlayOneShot(dropClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(dropClip);
 	}
 }

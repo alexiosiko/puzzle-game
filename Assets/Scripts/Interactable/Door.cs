@@ -16,7 +16,8 @@ public class Door : Interactable
 	IEnumerator Rattle()
 	{
 		animator.Play("Rattle");
-		source.PlayOneShot(doorRattleClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(doorRattleClip);
 		yield return new WaitForSeconds(GameSettings.tweenDuration);
 	}
 
@@ -25,7 +26,8 @@ public class Door : Interactable
 		animator.Play("Open");
 		_collider.enabled = false;
 		
-		source.PlayOneShot(onInteractClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(onInteractClip);
 		if (checkForNearby)
 			OpenNearBy();
 		yield return new WaitForSeconds(GameSettings.tweenDuration);

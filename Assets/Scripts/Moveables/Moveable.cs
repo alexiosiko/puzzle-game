@@ -36,7 +36,8 @@ public class Moveable : MonoBehaviour
 	}
 	public void Move(Vector2 direction)
 	{
-		source.PlayOneShot(onMoveClip);
+		if (!EffectsManager.mutedEffects)
+			source.PlayOneShot(onMoveClip);
 		transform.DOMove((Vector2)transform.position + direction, GameSettings.tweenDuration);
 	}
 	protected AudioSource source;

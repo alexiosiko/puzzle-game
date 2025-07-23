@@ -21,13 +21,29 @@ public class MusicManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		PlayNextSong();
 	}
+	bool muted;
+	public bool ToggleMute()
+	{
+		if (muted)
+		{
+			muted = false;
+			source.volume = 0.5f;
+		}
+		else
+		{
+			muted = true;
+			source.volume = 0;
+		}
+		return muted;
+	}
 	void PlayNextSong()
 	{
 		if (musicClips.Length == 0)
 			return;
 		if (musicClips.Length == 1)
 		{
-			source.PlayOneShot(musicClips[0]);
+			if (!EffectsManager.mutedEffects)
+				source.PlayOneShot(musicClips[0]);
 			return;
 		}
 

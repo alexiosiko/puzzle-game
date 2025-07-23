@@ -5,7 +5,6 @@ using DG.Tweening;
 using System.Collections;
 public class PopupMessageManager : MonoBehaviour
 {
-	[TextArea] [SerializeField] string defaultMessage;
 	float textSpeed = 0.045f;
 	public void PopupMessage(string message)
 	{
@@ -47,7 +46,7 @@ public class PopupMessageManager : MonoBehaviour
 	}
 	void DelayedStart()
 	{
-		PopupMessage(defaultMessage);
+		PopupMessage(text.text);
 	}
 	TMP_Text text;
 	void Awake()
