@@ -6,7 +6,7 @@ public class Vampire : Enemy
 {
 	[SerializeField] GameObject fireballPrefab;
 	GameObject currentFireBall;
-	int maxDistance = 5;
+	int maxDistance = 15;
 	bool waitOneTurn = false;
 	protected override void HandleOnEnemyMove()
 	{
@@ -27,7 +27,7 @@ public class Vampire : Enemy
 
 		if (next == null)
 			return;
-			
+
 		if (WalkIntoPlayer((Vector2)next))
 			return;
 
@@ -44,7 +44,7 @@ public class Vampire : Enemy
 	{
 		yield return base.Move(pos);
 		if (CanAttackPlayer() == true)
-			SpawnFireball(pos + direction);
+			SpawnFireball(pos);
 	}
 	Vector2 direction;
 	void SpawnFireball(Vector2 pos)
@@ -59,7 +59,7 @@ public class Vampire : Enemy
 		p.Init(direction, maxDistance);
 
 	}
-	[SerializeField] LayerMask cannotShootThrough; 
+	LayerMask cannotShootThrough;
 	protected override bool CanAttackPlayer()
 	{
 		if (currentFireBall != null)
@@ -86,5 +86,10 @@ public class Vampire : Enemy
 			Debug.DrawLine(currentPos + direction, currentPos + direction * maxDistance, Color.red, 1f);
 		}
 		return false;
+	}
+	protected override void Awake()
+	{
+		base.Awake();
+		cannotShootThrough = fireballPrefab.GetComponent<Projectile>().hitLayers;
 	}
 }

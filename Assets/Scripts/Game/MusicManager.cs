@@ -19,7 +19,6 @@ public class MusicManager : MonoBehaviour
 
 		source = GetComponent<AudioSource>();
 		DontDestroyOnLoad(gameObject);
-
 		PlayNextSong();
 	}
 	void PlayNextSong()

@@ -1,61 +1,39 @@
 using System.Collections;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 [RequireComponent(typeof(AudioSource))]
-public class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour
 {
+	protected bool firstMove = true;
 	[SerializeField] AudioClip explosionClip;
 	public Vector2 direction;
 	public int maxDistance;
-	int currentDistance;
-	[SerializeField] LayerMask collidables;
+	protected int currentDistance;
+	[SerializeField] public LayerMask hitLayers;
 	void OnEnable() => TurnManager.OnProjectilePhase += HandleOnProjectileTurn;
 	void OnDisable() => TurnManager.OnProjectilePhase -= HandleOnProjectileTurn;
-	public void Init(Vector2 direction, int maxDistance)
+	public virtual void Init(Vector2 direction, int maxDistance)
 	{
 		this.direction = direction;
 		this.maxDistance = maxDistance;
 		transform.right = direction;
-		// if (CheckHit(Vector2.zero) == true)
-		// 	Explode();
 	}
-	bool firstMove = true;
-	void HandleOnProjectileTurn()
-	{
-
-		if (firstMove == false && CheckHit(Vector2.zero) == true)
-		{
-			firstMove = false;
-			Explode();
-			return;
-		}
-
-		if (currentDistance == maxDistance)
-		{
-			Explode();
-			return;
-		}
-
-		if (CheckHit(direction) == true)
-		{
-			Explode();
-			return;
-		}
-		
-
-		TurnManager.Singleton.AddProjectile(Move());
-	}
+	protected abstract void HandleOnProjectileTurn();
 	public void Explode()
 	{
 		AudioManager.Singleton.PlayClip(explosionClip);
-		Destroy(gameObject);
+		Invoke(nameof(LateDoKill), GameSettings.tweenDuration / 1.1f);
+		Destroy(gameObject, GameSettings.tweenDuration);
 	}
-	bool CheckHit(Vector2 direction)
+	void OnDestroy() => CancelInvoke();
+	void LateDoKill() => transform.DOKill();
+	protected bool CheckHit(Vector2 direction)
 	{
 		Vector2 newPos = (Vector2)transform.position + direction;
-		var hit = Physics2D.OverlapPoint(newPos, collidables);
+		var hit = Physics2D.OverlapPoint(newPos, hitLayers);
+		print(newPos);
 		if (hit)
 		{
 			if (hit.TryGetComponent(out Enemy e))
@@ -65,6 +43,7 @@ public class Projectile : MonoBehaviour
 			}
 			if (hit.TryGetComponent(out Player p))
 			{
+				print("Added die");
 				TurnManager.Singleton.AddDie(p.Die());
 				return true;
 			}
@@ -72,11 +51,5 @@ public class Projectile : MonoBehaviour
 		}
 		return false;
 	}
-	IEnumerator Move()
-	{
-		Vector2 newPos = (Vector2)transform.position + direction;
-		currentDistance++;
-		yield return transform.DOMove(newPos, GameSettings.tweenDuration).WaitForCompletion();
-		firstMove = false;
-	}
+	protected abstract IEnumerator Move();
 }

@@ -24,7 +24,7 @@ public class Skull : Enemy
 		foreach (var d in Utils.directions)
 		{
 			Vector2 nextPos = (Vector2)transform.position + d;
-			var hit = Physics2D.OverlapPoint(nextPos, LayerMask.GetMask("Entity"));
+			var hit = Physics2D.OverlapPoint(nextPos, LayerMask.GetMask("Player"));
 			if (hit && hit.TryGetComponent(out Player p))
 			{
 				TurnManager.Singleton.AddAttack(Attack(p));

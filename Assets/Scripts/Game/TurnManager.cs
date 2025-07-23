@@ -69,14 +69,14 @@ public class TurnManager : MonoBehaviour
 		}
 
 		yield return new WaitUntil(() => runningCoroutines == 0);
-	}  
+	}
 	IEnumerator Wrap(IEnumerator routine, Action onDone)
 	{
 		if (routine != null)
 			yield return routine;
 		onDone();
 	}
-	
+
 	public void FreeLists()
 	{
 		FreeList(ref playerCoroutines);
@@ -90,6 +90,7 @@ public class TurnManager : MonoBehaviour
 	}
 	void OnDisable()
 	{
+		// GameManager.onGameLose -= HandleOnGameLose;
 		CancelInvoke();
 		isGameLooping = false;
 		FreeLists();
@@ -125,9 +126,14 @@ public class TurnManager : MonoBehaviour
 				attackCoroutines.Remove(a);
 				return;
 			}
-	} 
+	}
 	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
 	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
 	public void AddProjectile(IEnumerator action) => projectileCoroutines.Add(action);
-	
+	// void OnEnable() => GameManager.onGameLose += HandleOnGameLose;
+	// void HandleOnGameLose()
+	// {
+	// 	enabled = false;
+	// }
+
 }

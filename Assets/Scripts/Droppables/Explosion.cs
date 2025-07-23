@@ -9,7 +9,7 @@ public class Explosion : MonoBehaviour
 	public void PlayExplosionSound() => source.PlayOneShot(explosionClip);
 	void Start()
 	{
-		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Entity", "Collectable"));
+		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Entity", "Collectable", "Player"));
 		foreach(var hit in hits)
 		{
 			if (hit.TryGetComponent(out Goal g))

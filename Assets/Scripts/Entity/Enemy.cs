@@ -48,7 +48,7 @@ public abstract class Enemy : Entity
 		return false;
 	}
 	[HideInInspector] public int attackHashedCode;
-	protected IEnumerator Attack(Player p)
+	protected virtual IEnumerator Attack(Player p)
 	{
 		animator.Play("Attack");
 		IEnumerator function = AttackWithHashCode(p);

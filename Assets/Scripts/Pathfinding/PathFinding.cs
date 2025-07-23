@@ -100,8 +100,10 @@ public class AStarPathfinder
     }
 
     static readonly Vector2Int[] Directions = {
-        Vector2Int.up, Vector2Int.down,
-        Vector2Int.left, Vector2Int.right
+        Vector2Int.up,
+		Vector2Int.down,
+        Vector2Int.left,
+		Vector2Int.right
     };
 
     static int Heuristic(Vector2Int a, Vector2Int b) =>
