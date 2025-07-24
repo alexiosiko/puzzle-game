@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Inventory))]
 public class Player : Entity
 {
+	[SerializeField] AudioClip[] cheerClips;
 	[SerializeField] AudioClip dropClip;
 	protected override IEnumerator Move(Vector2 pos)
 	{
@@ -158,6 +159,7 @@ public class Player : Entity
 	}
 	void HandleOnGameWin()
 	{
+		PlayClips(cheerClips);	
 		animator.Play("Cheer");
 		enabled = false;
 	}

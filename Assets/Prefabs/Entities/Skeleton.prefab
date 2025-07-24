@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 9
   m_Sprite: {fileID: 2845384005087530567, guid: 995ce39207f8f5d2a96460c85b288a1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456bfc01a77c12c78822563068f2657c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieClip: {fileID: 0}
+  dieClip: {fileID: 8300000, guid: 22e769d7a1dbc8d5584e46eb68cd25f7, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: c181041af66514620b4ef2d03025228c, type: 3}
   - {fileID: 8300000, guid: b3d36da0a33150091bd0125b43b00fee, type: 3}
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShadowGroup: 0
-  m_Priority: 3
+  m_Priority: 9
   m_ComponentVersion: 5
   m_HasRenderer: 1
   m_UseRendererSilhouette: 1

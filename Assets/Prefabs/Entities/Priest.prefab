@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_Sprite: {fileID: -827016883341640748, guid: 9a59bf865ad22971fbd335215d65e548, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10ce75bfbd6ffaef8263892acd9eba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieClip: {fileID: 0}
+  dieClip: {fileID: 8300000, guid: 5e11ed175dcbe2c93b6255e8b396215f, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: 86a31d144750948b4a198595bb9bb940, type: 3}
   - {fileID: 8300000, guid: 66d61d595cacb32d19acee6e9377f5b5, type: 3}

@@ -61,6 +61,13 @@ public class Priest : Enemy
 	}
 	IEnumerator SpawnArrow(Vector2 pos)
 	{
+		animator.Play("Attack");
+		IEnumerator function = SpawnArrowWithHasedCode(pos);
+		attackHashedCode = function.GetHashCode();
+		return function;
+	}
+	IEnumerator SpawnArrowWithHasedCode(Vector2 pos)
+	{
 		PlayClip(attackClip);
 		animator.Play("Attack");
 		waitOneTurn = true;

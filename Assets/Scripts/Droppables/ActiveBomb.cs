@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class ActiveBomb : Droppable
@@ -12,6 +13,7 @@ public class ActiveBomb : Droppable
 	{
 		if (currentStep == 2)
 		{
+			Camera.main.transform.DOPunchRotation(new (0, 0, 2	), 0.2f);
 			TurnManager.Singleton.AddBomb(ExplodeRoutine());
 			return;
 		}
@@ -45,6 +47,7 @@ public class ActiveBomb : Droppable
 				return;
 			SpawnExplosion(pos);
 		}
+
 	}
 	protected override void Awake()
 	{

@@ -8,6 +8,7 @@ public abstract class Enemy : Entity
 	{
 		_collider.enabled = false;
 		animator.Play("Die");
+		PlayClip(dieClip);
 		enabled = false;
 		Destroy(gameObject, 1f);
 		yield return new WaitForSeconds(GameSettings.tweenDuration);

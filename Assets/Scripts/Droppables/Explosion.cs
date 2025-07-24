@@ -27,8 +27,8 @@ public class Explosion : MonoBehaviour
 				TurnManager.Singleton.AddExplosion(p.Die());
 			else if (hit.TryGetComponent(out Enemy e))
 			{
-				TurnManager.Singleton.AddExplosion(e.Die());
 				TurnManager.Singleton.RemoveAttack(e.attackHashedCode);
+				TurnManager.Singleton.AddExplosion(e.Die());
 
 			}
 		}

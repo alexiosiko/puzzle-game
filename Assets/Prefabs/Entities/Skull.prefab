@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 9
   m_Sprite: {fileID: -3560852360957142242, guid: b04c1e10281c91066b8777240665a55b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -270,13 +270,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8161f56d6593dbb2faba167868049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieClip: {fileID: 0}
+  dieClip: {fileID: 8300000, guid: 99989d2fbc65064879d78943a64fa357, type: 3}
   footstepClips:
   - {fileID: 8300000, guid: 489ff45bd5644e3eaa820e712f7b8a83, type: 3}
   notWalkableLayers:
     serializedVersion: 2
     m_Bits: 6208
-  attackClip: {fileID: 8300000, guid: a7833fea3bc3851c39709a1e557354ad, type: 3}
+  attackClip: {fileID: 8300000, guid: 35c2b214013ba1c068f4f1141b6f1972, type: 3}
   player: {fileID: 0}
   path: []
   attackHashedCode: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShadowGroup: 0
-  m_Priority: 7
+  m_Priority: 9
   m_ComponentVersion: 5
   m_HasRenderer: 1
   m_UseRendererSilhouette: 1

@@ -33,11 +33,12 @@ public class TurnManager : MonoBehaviour
 	IEnumerator ProcessTurn()
 	{
 		yield return new WaitUntil(() => waiting == false);
-		waiting = true;
-		Invoke(nameof(UnWait), minimumWaitingTimeBetweenTurns);
 
 		OnPlayerPhase?.Invoke();
 		yield return ProcessPhase(playerCoroutines);
+		
+		waiting = true;
+		Invoke(nameof(UnWait), minimumWaitingTimeBetweenTurns);
 
 		OnEnemyPhase?.Invoke();
 		OnProjectilePhase?.Invoke();
@@ -125,8 +126,7 @@ public class TurnManager : MonoBehaviour
 				attackCoroutines.Remove(a);
 				return;
 			}
-		Debug.LogError("Could not remove attack: " + hashedCode);
-	}
+		}
 	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
 	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
 	public void AddProjectile(IEnumerator action) => projectileCoroutines.Add(action);

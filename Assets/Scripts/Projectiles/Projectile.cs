@@ -23,6 +23,7 @@ public abstract class Projectile : MonoBehaviour
 	protected abstract void HandleOnProjectileTurn();
 	public void Explode()
 	{
+		Camera.main.transform.DOPunchRotation(new (0, 0, 2	), 0.2f);
 		animator.Play("Explode");
 		_collider.enabled = false;
 		TurnManager.OnProjectilePhase -= HandleOnProjectileTurn;
