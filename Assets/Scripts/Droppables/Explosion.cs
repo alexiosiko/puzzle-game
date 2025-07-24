@@ -13,7 +13,7 @@ public class Explosion : MonoBehaviour
 	} 
 	void Start()
 	{
-		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Entity", "Collectable", "Player"));
+		var hits = Physics2D.OverlapPointAll(transform.position, LayerMask.GetMask("Breakable", "Enemy", "Collectable", "Player"));
 		foreach(var hit in hits)
 		{
 			if (hit.TryGetComponent(out Goal g))

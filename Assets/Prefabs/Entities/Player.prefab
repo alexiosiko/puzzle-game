@@ -111,7 +111,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1bb4aba7391ce45cc80ebb70e5e11c06, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 171328
+    m_Bits: 170304
   dropClip: {fileID: 8300000, guid: 1766239a16c5c3cf4a283eb7beb683a0, type: 3}
   checkingForInput: 1
   inventory: {fileID: 6010298055689562711}

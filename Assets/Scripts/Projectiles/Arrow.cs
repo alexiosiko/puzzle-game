@@ -12,7 +12,6 @@ public class Arrow : Projectile
 
 		Player player = FindFirstObjectByType<Player>();
 		int totalSpaces = Mathf.RoundToInt((player.transform.position - transform.position).magnitude);
-		print(totalSpaces);
 		while (totalSpaces > 0)
 		{
 			totalSpaces--;

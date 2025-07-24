@@ -11,13 +11,7 @@ public abstract class Entity : SoundPlayer
 	[SerializeField] protected AudioClip[] footstepClips;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	[SerializeField] protected LayerMask notWalkableLayers;
-	protected Entity HitEntity(Vector2 pos)
-	{
-		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
-		if (hit)
-			return hit.GetComponent<Entity>();
-		return null;
-	}
+
 	protected virtual IEnumerator Move(Vector2 pos)
 	{
 		PlayClips(footstepClips);

@@ -29,17 +29,15 @@ public class TurnManager : MonoBehaviour
 	bool waiting = false;
 	void UnWait() => waiting = false;
 	float minimumWaitingTimeBetweenTurns;
-
+	bool debugMode = false;
 	IEnumerator ProcessTurn()
 	{
 		yield return new WaitUntil(() => waiting == false);
-
-		OnPlayerPhase?.Invoke();
-		yield return ProcessPhase(playerCoroutines);
-
 		waiting = true;
 		Invoke(nameof(UnWait), minimumWaitingTimeBetweenTurns);
 
+		OnPlayerPhase?.Invoke();
+		yield return ProcessPhase(playerCoroutines);
 
 		OnEnemyPhase?.Invoke();
 		OnProjectilePhase?.Invoke();
@@ -52,12 +50,11 @@ public class TurnManager : MonoBehaviour
 		yield return ProcessPhase(explosionCoroutines);
 
 		yield return ProcessPhase(attackCoroutines, dieCoroutines);
-
-
 	}
 	IEnumerator ProcessPhase(params List<IEnumerator>[] coroutineLists)
 	{
 		int runningCoroutines = coroutineLists.Sum(list => list.Count);
+		bool debugYes = debugMode && runningCoroutines > 0;
 		foreach (var list in coroutineLists)
 		{
 			var listCopy = list.ToList(); // make a copy
@@ -69,6 +66,8 @@ public class TurnManager : MonoBehaviour
 		}
 
 		yield return new WaitUntil(() => runningCoroutines == 0);
+		if (debugYes)
+			yield return new WaitForSeconds(0.5f);
 	}
 	IEnumerator Wrap(IEnumerator routine, Action onDone)
 	{
@@ -90,7 +89,7 @@ public class TurnManager : MonoBehaviour
 	}
 	void OnDisable()
 	{
-		// GameManager.onGameLose -= HandleOnGameLose;
+		Goal.OnGameWin -= HandleOnGameWin;
 		CancelInvoke();
 		isGameLooping = false;
 		FreeLists();
@@ -126,14 +125,15 @@ public class TurnManager : MonoBehaviour
 				attackCoroutines.Remove(a);
 				return;
 			}
+		Debug.LogError("Could not remove attack: " + hashedCode);
 	}
 	public void AddDie(IEnumerator action) => dieCoroutines.Add(action);
 	public void AddExplosion(IEnumerator action) => explosionCoroutines.Add(action);
 	public void AddProjectile(IEnumerator action) => projectileCoroutines.Add(action);
-	// void OnEnable() => GameManager.onGameLose += HandleOnGameLose;
-	// void HandleOnGameLose()
-	// {
-	// 	enabled = false;
-	// }
+	void OnEnable() => Goal.OnGameWin += HandleOnGameWin;
+	void HandleOnGameWin()
+	{
+		enabled = false;
+	}
 
 }

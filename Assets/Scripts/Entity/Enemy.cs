@@ -60,7 +60,7 @@ public abstract class Enemy : Entity
 		FaceEntity(p.transform.position);
 		PlayClip(attackClip);
 		animator.Play("Attack");
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.2f);
 		yield return p.Die();
 	}
 	protected virtual void OnEnable() => TurnManager.OnEnemyPhase += HandleOnEnemyMove;

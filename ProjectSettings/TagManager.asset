@@ -15,7 +15,7 @@ TagManager:
   - Collectable
   - Breakable
   - 
-  - Entity
+  - 
   - Interactable
   - Moveable
   - Goal
@@ -24,7 +24,7 @@ TagManager:
   - Droppable
   - Obstacle
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 

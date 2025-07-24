@@ -27,10 +27,6 @@ public class Fireball : Projectile
 
 		if (CheckHit(direction) == true)
 		{
-			print(transform.position);
-			print(direction);
-
-			print("true");
 			Explode();
 			return;
 		}

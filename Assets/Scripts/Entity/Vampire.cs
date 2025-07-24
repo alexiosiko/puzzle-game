@@ -35,7 +35,7 @@ public class Vampire : Enemy
 	}
 	bool WalkIntoPlayer(Vector2 pos)
 	{
-		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Player"));
 		if (hit && hit.TryGetComponent(out Player p))
 			return true;
 		return false;

@@ -146,8 +146,21 @@ public class Player : Entity
 		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) dir = Vector2.left;
 		else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) dir = Vector2.right;
 }
-	void OnEnable() => TurnManager.OnPlayerPhase += HandleOnPlayerPhase;
-	void OnDisable() => TurnManager.OnPlayerPhase -= HandleOnPlayerPhase;
+	void OnEnable()
+	{
+		TurnManager.OnPlayerPhase += HandleOnPlayerPhase;
+		Goal.OnGameWin += HandleOnGameWin;
+	}
+	void OnDisable()
+	{
+		TurnManager.OnPlayerPhase -= HandleOnPlayerPhase;
+		Goal.OnGameWin -= HandleOnGameWin;
+	}
+	void HandleOnGameWin()
+	{
+		animator.Play("Cheer");
+		enabled = false;
+	}
 	void HandleOnPlayerPhase() => TurnManager.Singleton.AddPlayer(WaitForInput());
 	[HideInInspector] public Inventory inventory;
 	protected override void Awake()

@@ -20,6 +20,12 @@ public class Moveable : MonoBehaviour
 			Move(direction);
 			return true;
 		}
+		if (hit.TryGetComponent(out Projectile p))
+		{
+			p.Explode();
+			Move(direction);
+			return true;
+		}
 
 		// If another moveable, check recursively
 		if (hit.TryGetComponent(out Moveable m))

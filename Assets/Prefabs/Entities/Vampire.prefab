@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3060630241961293850}
   - component: {fileID: 7304837387904778017}
   - component: {fileID: -3893246531778836123}
-  m_Layer: 10
+  m_Layer: 19
   m_Name: Vampire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,16 +133,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c48ced7be4eb3e0fc9d6b8ac20144695, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 171328
+    m_Bits: 170304
   attackClip: {fileID: 8300000, guid: 88785c693d0ccfc739963c260b845b40, type: 3}
   player: {fileID: 0}
   path: []
   attackHashedCode: 0
   fireballPrefab: {fileID: 6831033719669253898, guid: f54428ddb7e6be5f2b44e44fcb44a6f9, type: 3}
-  currentFireBall: {fileID: 0}
-  cannotShootThrough:
-    serializedVersion: 2
-    m_Bits: 40000
 --- !u!61 &3060630241961293850
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -23,9 +23,12 @@ public abstract class Projectile : MonoBehaviour
 	protected abstract void HandleOnProjectileTurn();
 	public void Explode()
 	{
+		animator.Play("Explode");
+		_collider.enabled = false;
+		TurnManager.OnProjectilePhase -= HandleOnProjectileTurn;
 		EffectsManager.Singleton.PlayClip(explosionClip);
 		Invoke(nameof(LateDoKill), GameSettings.tweenDuration / 1.1f);
-		Destroy(gameObject, GameSettings.tweenDuration);
+		Destroy(gameObject, 1f);
 	}
 	void OnDestroy() => CancelInvoke();
 	void LateDoKill() => transform.DOKill();
@@ -33,23 +36,29 @@ public abstract class Projectile : MonoBehaviour
 	{
 		Vector2 newPos = (Vector2)transform.position + direction;
 		var hit = Physics2D.OverlapPoint(newPos, hitLayers);
-		print(newPos);
 		if (hit)
 		{
 			if (hit.TryGetComponent(out Enemy e))
 			{
+				TurnManager.Singleton.RemoveAttack(e.attackHashedCode);
 				TurnManager.Singleton.AddDie(e.Die());
 				return true;
 			}
 			if (hit.TryGetComponent(out Player p))
 			{
-				print("Added die");
 				TurnManager.Singleton.AddDie(p.Die());
 				return true;
 			}
 			return true;
 		}
 		return false;
+	}
+	Animator animator;
+	BoxCollider2D _collider;
+	void Awake()
+	{
+		_collider = GetComponent<BoxCollider2D>();
+		animator = GetComponent<Animator>();
 	}
 	protected abstract IEnumerator Move();
 }
