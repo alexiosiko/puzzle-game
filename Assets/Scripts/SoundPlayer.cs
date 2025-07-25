@@ -9,7 +9,7 @@ public class SoundPlayer : MonoBehaviour
 		if (!EffectsManager.mutedEffects)
 			source.PlayOneShot(clip);
 	}
-	protected void PlayClips(AudioClip[] clips)
+	protected void PlayClip(AudioClip[] clips)
 	{
 		var clip = Utils.GetRandomAudioClip(clips);
 		if (clip)

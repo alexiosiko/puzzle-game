@@ -107,6 +107,9 @@ MonoBehaviour:
   sprites:
   - {fileID: -801591729, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}
   - {fileID: 1977031721, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}
+  stopExplosionLayer:
+    serializedVersion: 2
+    m_Bits: 170048
 --- !u!82 &4687949109086452261
 AudioSource:
   m_ObjectHideFlags: 0

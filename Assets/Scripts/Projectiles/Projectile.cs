@@ -21,9 +21,14 @@ public abstract class Projectile : MonoBehaviour
 		transform.right = direction;
 	}
 	protected abstract void HandleOnProjectileTurn();
+	protected void Shake()
+	{
+		EffectsManager.Singleton.ResetAndCallOnShake();
+		EffectsManager.Singleton.cameraTransform.DOPunchRotation(new (0, 0, 5), 0.1f, 50, 20);
+	}
 	public void Explode()
 	{
-		Camera.main.transform.DOPunchRotation(new (0, 0, 2	), 0.2f);
+
 		animator.Play("Explode");
 		_collider.enabled = false;
 		TurnManager.OnProjectilePhase -= HandleOnProjectileTurn;
@@ -50,6 +55,7 @@ public abstract class Projectile : MonoBehaviour
 				TurnManager.Singleton.AddDie(p.Die());
 				return true;
 			}
+			Shake();
 			return true;
 		}
 		return false;

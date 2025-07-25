@@ -111,7 +111,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1bb4aba7391ce45cc80ebb70e5e11c06, type: 3}
   notWalkableLayers:
     serializedVersion: 2
-    m_Bits: 170304
+    m_Bits: 694592
+  dieClips:
+  - {fileID: 8300000, guid: 33a506510221170d090556e81d0aa400, type: 3}
+  - {fileID: 8300000, guid: 923dce716e3245f4c8f151be7566c0eb, type: 3}
+  - {fileID: 8300000, guid: 3e97ec1f1269569eca27bd58d4823e79, type: 3}
   cheerClips:
   - {fileID: 8300000, guid: 615d9a1e03ce76dd8ad492c7e9d1e14d, type: 3}
   - {fileID: 8300000, guid: e6360bb744604599b8c562fac5650fb8, type: 3}

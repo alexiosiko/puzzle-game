@@ -40,14 +40,14 @@ public class PopupMessageManager : MonoBehaviour
 			yield return new WaitForSeconds(textSpeed);
 		}
 	}
+	string originalText;
 	public void Start()
 	{
+		originalText = text.text;
+		text.text = "";
 		Invoke(nameof(DelayedStart), 1f);
 	}
-	void DelayedStart()
-	{
-		PopupMessage(text.text);
-	}
+	void DelayedStart() => PopupMessage(originalText);
 	TMP_Text text;
 	void Awake()
 	{

@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Inventory))]
 public class Player : Entity
 {
+	[SerializeField] AudioClip[] dieClips;
 	[SerializeField] AudioClip[] cheerClips;
 	[SerializeField] AudioClip dropClip;
 	protected override IEnumerator Move(Vector2 pos)
@@ -13,8 +14,9 @@ public class Player : Entity
 		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Collectable"));
 		if (hit)
 			hit.GetComponent<Collectable>()?.Action(this);
+		HitProjectile(pos);
 
-		PlayClips(footstepClips);
+		PlayClip(footstepClips);
 		FaceEntity(pos);
 		transform.DOMove(pos, GameSettings.tweenDuration);
 		yield return new WaitForSeconds(GameSettings.tweenDuration / 1.7f);
@@ -38,9 +40,10 @@ public class Player : Entity
 	{
 		if (direction == Vector2.zero || (Vector2)transform.position == pos)
 			return false;
+		pos = pos + GameSettings.rayCastOffset;
 
 		// LayerMask exclude = ~LayerMask.GetMask("Collectable", "Droppable");
-		var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, notWalkableLayers);
+		var hit = Physics2D.OverlapPoint(pos, notWalkableLayers);
 		if (hit)
 		{
 			if (hit.TryGetComponent(out Moveable m))
@@ -54,7 +57,7 @@ public class Player : Entity
 	{
 		// yield return base.Die();
 		animator.Play("Die");
-		PlayClip(dieClip);
+		PlayClip(dieClips);
 		yield return new WaitForSeconds(1f);
 		OnPlayerDie?.Invoke();
 	}
@@ -103,7 +106,7 @@ public class Player : Entity
 		// Handle input convienience
 		dir = Vector2.zero;
 		checkingForInput = false;
-		float fingerPressTime = 0.2f;
+		float fingerPressTime = 0.175f;
 		Invoke(nameof(EnableSetCheckingForInput), fingerPressTime);
 
 
@@ -159,7 +162,7 @@ public class Player : Entity
 	}
 	void HandleOnGameWin()
 	{
-		PlayClips(cheerClips);	
+		PlayClip(cheerClips);	
 		animator.Play("Cheer");
 		enabled = false;
 	}

@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 public abstract class Enemy : Entity
 {
-	public override IEnumerator Die()
+
+	public override IEnumerator Die() 
 	{
 		_collider.enabled = false;
 		animator.Play("Die");
@@ -29,8 +29,7 @@ public abstract class Enemy : Entity
 		Vector2Int pos = path[0];
 
 		// Could want into entity cause we said we can walk through entites in path finding
-		if (WalkIntoEnemy(pos))
-			return null;
+		
 
 		if (reservedPositions.Contains(pos))
 			return null;
@@ -41,13 +40,7 @@ public abstract class Enemy : Entity
 	}  
 	
 	
-	bool WalkIntoEnemy(Vector2 pos)
-	{
-		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
-		if (hit && hit.TryGetComponent(out Enemy e))
-			return true;
-		return false;
-	}
+	
 	[HideInInspector] public int attackHashedCode;
 	protected virtual IEnumerator Attack(Player p)
 	{

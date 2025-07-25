@@ -12,21 +12,37 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1809971464, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
+    - target: {fileID: 814756170341533502, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+      propertyPath: m_PreviousTrimEdge
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 814756170341533502, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+      propertyPath: m_PreviousShadowShape2DSource
+      value: 
+      objectReference: {fileID: 7603318784148068374}
     - target: {fileID: 967567470612535612, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 47924433, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
+    - target: {fileID: 1666933264472590656, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 40ec6fe2686d1d4beae25b8818602eee, type: 2}
     - target: {fileID: 2555220458215371381, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
       propertyPath: m_Name
-      value: Door (2) Variant
+      value: Side Door
       objectReference: {fileID: 0}
+    - target: {fileID: 5482484848498425881, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1809971464, guid: 398370ade9d9f31d2ac3745c055a309f, type: 3}
     - target: {fileID: 7241119667898727572, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: -5.9883246
       objectReference: {fileID: 0}
     - target: {fileID: 7241119667898727572, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 4.690447
       objectReference: {fileID: 0}
     - target: {fileID: 7241119667898727572, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
       propertyPath: m_LocalPosition.z
@@ -65,3 +81,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+--- !u!61 &7603318784148068374 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1748697019046319916, guid: be44999be3ef054cfa133c0732b10b54, type: 3}
+  m_PrefabInstance: {fileID: 8196820199303352122}
+  m_PrefabAsset: {fileID: 0}

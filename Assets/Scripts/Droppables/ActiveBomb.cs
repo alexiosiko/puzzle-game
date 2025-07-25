@@ -7,13 +7,14 @@ public class ActiveBomb : Droppable
 	[SerializeField] GameObject explosionGameObject;
 	[SerializeField] Sprite[] sprites = new Sprite[2];
 	int currentStep = 0;
-	public void OnEnable() => TurnManager.OnBombPhase += HandleOnBombPhase;
+	void OnEnable() => TurnManager.OnBombPhase += HandleOnBombPhase;
 	void OnDisable() => TurnManager.OnBombPhase -= HandleOnBombPhase;
 	void HandleOnBombPhase()
 	{
 		if (currentStep == 2)
 		{
-			Camera.main.transform.DOPunchRotation(new (0, 0, 2	), 0.2f);
+			EffectsManager.Singleton.ResetAndCallOnShake();
+			EffectsManager.Singleton.cameraTransform.DOPunchRotation(new (0, 0, 5), 0.15f);
 			TurnManager.Singleton.AddBomb(ExplodeRoutine());
 			return;
 		}
@@ -28,7 +29,7 @@ public class ActiveBomb : Droppable
 		ExplodeInDirection(Vector2.up);
 		ExplodeInDirection(Vector2.right);
 		ExplodeInDirection(Vector2.down);
-		var b = SpawnExplosion((Vector2)transform.position);
+		var b = SpawnExplosion(transform.position);
 		b.GetComponent<Explosion>().PlayExplosionSound();
 
 		Destroy(gameObject);
@@ -36,13 +37,14 @@ public class ActiveBomb : Droppable
 		yield break;
 
 	}
+	[SerializeField] LayerMask stopExplosionLayer;
 	void ExplodeInDirection(Vector2 direction)
 	{
-		int stopExplosionLayer = LayerMask.GetMask("Wall", "Moveable");
+		
 		for (int i = 1; i < 3; i++)
 		{
 			Vector2 pos = (Vector2)transform.position + direction * i;
-			var hit = Physics2D.OverlapPoint(pos, stopExplosionLayer);
+			var hit = Physics2D.OverlapPoint(pos + GameSettings.rayCastOffset, stopExplosionLayer);
 			if (hit)
 				return;
 			SpawnExplosion(pos);

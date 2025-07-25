@@ -17,12 +17,12 @@ public class Explosion : MonoBehaviour
 		foreach(var hit in hits)
 		{
 			if (hit.TryGetComponent(out Goal g))
-				TurnManager.Singleton.AddExplosion(g.Break());
+				g.Break();
 			else if (hit.TryGetComponent(out Collectable c))
-				TurnManager.Singleton.AddExplosion(c.Break());
+				c.Break();
 
 			else if (hit.TryGetComponent(out Breakable b))
-				TurnManager.Singleton.AddExplosion(b.Break());
+				b.Break();
 			else if (hit.TryGetComponent(out Player p))
 				TurnManager.Singleton.AddExplosion(p.Die());
 			else if (hit.TryGetComponent(out Enemy e))

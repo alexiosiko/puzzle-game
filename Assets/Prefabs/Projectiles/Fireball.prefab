@@ -326,4 +326,4 @@ MonoBehaviour:
   maxDistance: 0
   hitLayers:
     serializedVersion: 2
-    m_Bits: 268352
+    m_Bits: 792640

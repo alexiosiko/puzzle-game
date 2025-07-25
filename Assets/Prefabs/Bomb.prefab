@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92a4c850c960603185c2ede60959058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onMoveClip: {fileID: 8300000, guid: f356ac47c3257133d997c8b038682565, type: 3}
-  onPickupClip: {fileID: 8300000, guid: 9bd397b907e18b7cf9e9fc8a6d1c5b1a, type: 3}
+  onMoveClip: {fileID: 8300000, guid: 1e1fa429ea8f5b9bd9d42b31cc1e61b7, type: 3}
+  onPickupClip: {fileID: 8300000, guid: 8e067a8284b80593286c67fbd4723278, type: 3}
   prefab: {fileID: 3318254346356102456, guid: 8cbbc6f75a6f11fe28961b412a05ac72, type: 3}
   id: bomb
   sprite: {fileID: -738897914031928467, guid: 9b5789b04f98e4e818cc9c9e679e5550, type: 3}

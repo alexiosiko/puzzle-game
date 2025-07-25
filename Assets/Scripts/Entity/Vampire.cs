@@ -1,5 +1,4 @@
- using System.Collections;
-using System.IO;
+using System.Collections;
 using UnityEngine;
 
 public class Vampire : Enemy
@@ -28,17 +27,8 @@ public class Vampire : Enemy
 		if (next == null)
 			return;
 
-		if (WalkIntoPlayer((Vector2)next))
-			return;
 
 		TurnManager.Singleton.AddEnemy(Move((Vector2)next));
-	}
-	bool WalkIntoPlayer(Vector2 pos)
-	{
-		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Player"));
-		if (hit && hit.TryGetComponent(out Player p))
-			return true;
-		return false;
 	}
 	protected override IEnumerator Move(Vector2 pos)
 	{

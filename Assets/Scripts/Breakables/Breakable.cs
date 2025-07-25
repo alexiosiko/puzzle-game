@@ -1,12 +1,31 @@
 using System.Collections;
-using DG.Tweening;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
-public class Breakable : MonoBehaviour
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
+public class Breakable : SoundPlayer
 {
-	public IEnumerator Break()
+	[SerializeField] AudioClip explodeClip;
+	public void Break()
 	{
-		yield return transform.DOScaleX(0, 0.2f).WaitForCompletion();
-		Destroy(gameObject);
+		PlayClip(explodeClip);
+		animator.Play("Explode");
+		enabled = false;
+		_collider.enabled = false;
+		Destroy(gameObject, 0.5f);
+	}
+	Animator animator;
+	BoxCollider2D _collider;
+	protected override void Awake()
+	{
+		base.Awake();
+		_collider = GetComponent<BoxCollider2D>();
+		animator = GetComponent<Animator>();
+	}
+	void OnEnable() => EffectsManager.OnShake += HandleOnShake;
+	void OnDisable() => EffectsManager.OnShake -= HandleOnShake;
+	void HandleOnShake()
+	{
+		animator.Play("Shake");
 	}
 }

@@ -11,21 +11,30 @@ public abstract class Entity : SoundPlayer
 	[SerializeField] protected AudioClip[] footstepClips;
 	public static HashSet<Vector2Int> reservedPositions = new();
 	[SerializeField] protected LayerMask notWalkableLayers;
-
+	protected bool WalkIntoEnemy(Vector2 pos)
+	{
+		var hit = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Entity"));
+		if (hit && hit.TryGetComponent(out Enemy e))
+			return true;
+		return false;
+	}
+	bool CanMove(Vector2 pos)
+	{
+		if (WalkIntoEnemy(pos))
+			return false;
+		if (HitProjectile(pos))
+			return false;
+		return true;
+	}
 	protected virtual IEnumerator Move(Vector2 pos)
 	{
-		PlayClips(footstepClips);
-		FaceEntity(pos);
-		if (HitProjectile(pos))
-		{
-			yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
+		if (CanMove(pos) == false)
 			yield break;
-		}
-		else
-		{
-			yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
-			HitProjectile(pos);
-		}
+		PlayClip(footstepClips);
+		FaceEntity(pos);
+		yield return transform.DOMove(pos, GameSettings.tweenDuration).WaitForCompletion();
+		HitProjectile(pos);
+
 	}
 	protected void FaceEntity(Vector2 target)
 	{

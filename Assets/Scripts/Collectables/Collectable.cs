@@ -27,15 +27,17 @@ public class Collectable : Moveable
 		yield return transform.DOScaleX(0, GameSettings.tweenDuration).WaitForCompletion();
 		Destroy(gameObject);
 	}
-	public IEnumerator Break()
+	public void Break()
 	{
-		yield return transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();
-		Destroy(gameObject);
+		transform.DOScale(0, GameSettings.tweenDuration).WaitForCompletion();
+		_collider.enabled = false;
+		Destroy(gameObject, GameSettings.tweenDuration);
 	}
-
+	BoxCollider2D _collider;
 	protected override void Awake()
 	{
 		base.Awake();
+		_collider = GetComponent<BoxCollider2D>();
 		_renderer = GetComponent<SpriteRenderer>();
 		firstSprite = _renderer.sprite;
 	}

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 public class Door : Interactable
 {
 	[SerializeField] AudioClip doorRattleClip;
@@ -20,9 +21,10 @@ public class Door : Interactable
 			source.PlayOneShot(doorRattleClip);
 		yield return new WaitForSeconds(GameSettings.tweenDuration);
 	}
-
 	IEnumerator Open(bool checkForNearby)
 	{
+		EffectsManager.Singleton.ResetAndCallOnShake();
+		EffectsManager.Singleton.cameraTransform.DOShakePosition(0.2f, 0.1f);
 		animator.Play("Open");
 		_collider.enabled = false;
 		
